@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="root" maxHeight="1080.0" maxWidth="1920.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="easychef.ui.MainController">
+  <children>
+    <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <bottom>
+        <AnchorPane fx:id="footerPane" prefHeight="30.0" prefWidth="-1.0" styleClass="footerPane" />
+      </bottom>
+      <center>
+        <AnchorPane fx:id="containerPane" prefHeight="-1.0" prefWidth="-1.0" styleClass="containerPane">
+          <children>
+            <SplitPane fx:id="splitPane" cache="true" disable="false" dividerPositions="0.700626959247649" focusTraversable="false" prefHeight="-1.0" prefWidth="-1.0" style="" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-border-width: 0px;">
+                  <children>
+                    <TableView id="dataTable" fx:id="orderTable" prefHeight="-1.0" prefWidth="-1.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="3.0" />
+                  </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                  <children>
+                    <AnchorPane prefHeight="36.0" prefWidth="200.0" styleClass="leftAnchor-pane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                      <children>
+                        <Label alignment="CENTER" styleClass="left-header-label" text="Амжилтын үзүүлэлт" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
+                      </children>
+                    </AnchorPane>
+                    <VBox prefHeight="400.0" prefWidth="100.0" styleClass="leftpane-vbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                      <children>
+                        <AnchorPane id="AnchorPane" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+                          <children>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="leftpane-hbox" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="0.0">
+                              <children>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Бага хүлээлттэй" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="2.0">
+                                      <image>
+                                        <Image url="@../resources/green-smile.png" backgroundLoading="false" />
+                                      </image>
+                                    </ImageView>
+                                    <Label id="noLowWaits" fx:id="noOfLowWaits" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" prefWidth="50.0" styleClass="right-label-for-numbers" text="10" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="leftpane-hbox" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
+                              <children>
+                                <AnchorPane id="AnchorPane" minHeight="34.0" minWidth="205.0" prefHeight="34.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Дундаж хүлээлттэй" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="2.0">
+                                      <image>
+                                        <Image url="@../resources/yellow-smile.png" />
+                                      </image>
+                                    </ImageView>
+                                    <Label id="noMediumWaits" fx:id="noOfMediumWaits" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" prefWidth="50.0" styleClass="right-label-for-numbers" text="10" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="leftpane-hbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0">
+                              <children>
+                                <AnchorPane id="AnchorPane" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Их хүлээлттэй" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="4.0" />
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="2.0">
+                                      <image>
+                                        <Image url="@../resources/red-smile.png" />
+                                      </image>
+                                    </ImageView>
+                                    <Label fx:id="noOfHighWaits" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" prefWidth="50.0" styleClass="right-label-for-numbers" text="10" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="leftpane-hbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="125.0">
+                              <children>
+                                <AnchorPane id="AnchorPane" minHeight="-1.0" prefHeight="-1.0" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label alignment="CENTER" styleClass="left-header-label" text="Буцаагдсан захиалга" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="leftpane-hbox" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="165.0">
+                              <children>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" prefHeight="30.0" prefWidth="200.0" styleClass="right-pane-labels" text="Зарлагагүй буцаалт" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label fx:id="noOfCancelOrdersWithoutCost" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" prefWidth="50.0" styleClass="right-label-for-numbers" text="10" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" styleClass="leftpane-hbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="205.0">
+                              <children>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="200.0" minHeight="30.0" minWidth="200.0" prefHeight="30.0" prefWidth="200.0" styleClass="right-pane-labels" text="Зарлагатай буцаалт" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="5.0" />
+                                    <Label fx:id="noOfCancelOrdersWithCost" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" prefWidth="50.0" styleClass="right-label-for-numbers" text="10" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="250.0">
+                              <children>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label alignment="CENTER" minHeight="-1.0" styleClass="left-header-label" text="Системийн статус" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox minHeight="-1.0" prefHeight="40.0" prefWidth="-1.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="290.0">
+                              <children>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Сервер" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label fx:id="serverStatusLabel" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #35AA47;" styleClass="system-stat-labels" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                          </children>
+                          <VBox.margin>
+                            <Insets />
+                          </VBox.margin>
+                        </AnchorPane>
+                      </children>
+                    </VBox>
+                  </children>
+                </AnchorPane>
+              </items>
+            </SplitPane>
+          </children>
+        </AnchorPane>
+      </center>
+      <top>
+        <AnchorPane fx:id="headerPane" prefHeight="50.0" prefWidth="-1.0" styleClass="headerPane" BorderPane.alignment="CENTER">
+          <children>
+            <ImageView fitHeight="40.0" fitWidth="130.0" pickOnBounds="true" preserveRatio="true" x="30.0" y="1.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="5.0">
+              <image>
+                <Image url="@../resources/Logo-transparent.png" />
+              </image>
+            </ImageView>
+            <Button id="buttonExit" fx:id="btnExit" layoutY="0.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="btnExit" text="" AnchorPane.rightAnchor="0.0" />
+            <Button id="buttonMaximize" fx:id="btnMaximize" layoutY="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="btnMax" text="" AnchorPane.rightAnchor="30.0" />
+            <Button id="buttonMinimize" fx:id="btnMinimize" layoutY="0.0" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="30.0" styleClass="btnMin" text="" AnchorPane.rightAnchor="60.0" />
+          </children>
+          <BorderPane.margin>
+            <Insets />
+          </BorderPane.margin>
+        </AnchorPane>
+      </top>
+    </BorderPane>
+  </children>
+  <stylesheets>
+    <URL value="@Main.css" />
+  </stylesheets>
+</AnchorPane>

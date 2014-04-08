@@ -1,0 +1,63 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 4, 2014, 2:49:19 PM
+    Author     : Tumendelger
+*/
+
+.loginPane {
+
+}
+
+.errorlabel {
+    -fx-font: 13px "Tahoma";
+    -fx-text-fill: #ff3f3f;    
+}
+
+.text-field{
+    -fx-border-width: 1 1 1 2;
+    -fx-border-color: lightgray lightgrey lightgray #35AA47;
+    -fx-background-color: transparent;
+    -fx-background-radius: 0px;
+}
+
+.text-field:focused{
+    -fx-border-color: dimgray dimgrey dimgrey #35AA47;
+}
+
+.check-box { /* FX caspian stylesheet */    
+    -fx-text-fill: #1f1f1f;
+}
+
+.check-box .box {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: #bababa;
+    -fx-border-width: 1px;
+    -fx-border-style: solid;
+    -fx-padding: 1;
+}
+
+.button {    
+    -fx-background-color: #35AA47;
+    -fx-text-fill: #ffffff;
+    -fx-background-insets: 0px 0px 0px 0px, 0px, 0px, 0px;
+    -fx-padding: 0.166667em 0.833333em 0.25em 0.833333em;
+    -fx-background-radius: 0px, 0px, 0px, 0px;
+}
+
+.button:hover{
+    -fx-background-color: #1d943b !important;
+}
+
+.button:pressed{
+    -fx-background-color: #042b0e !important;
+}
+.footerPane {
+    -fx-background-color: #1f1f1f;
+}
+

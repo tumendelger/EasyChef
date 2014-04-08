@@ -1,0 +1,258 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 4, 2014, 2:49:19 PM
+    Author     : Tumendelger
+*/
+
+.root {
+
+}
+
+/**
+    Container panes 
+*/
+.headerPane, .footerPane {
+    -fx-background-color: #1f1f1f;
+}
+
+.containerPane {
+    -fx-background-color: #000;
+}
+
+.menu-bar .label{
+    -fx-font: 14px "Tahoma";
+}
+
+.btnPane {
+    -fx-background-color: transparent;
+}
+
+/**
+    System buttons
+*/
+.btnExit, .btnMax, .btnMin {    
+    -fx-background-color: #1f1f1f;
+    -fx-background-radius: 0px;
+    -fx-background-insets: 0px;
+    -fx-content-display: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.btnExit {
+    -fx-background-image: url("../resources/remove-white.png");    
+}
+
+.btnExit:hover {
+    -fx-background-image: url("../resources/remove-hover.png");
+}
+
+.btnMin {
+    -fx-background-image: url("../resources/minimize-white.png");
+}
+
+.btnMin:hover {
+    -fx-background-image: url("../resources/minimize-hover.png");
+}
+
+.btnMax {
+    -fx-background-image: url("../resources/maximize-white.png");
+}
+
+.btnMax:hover {
+    -fx-background-image: url("../resources/maximize-hover.png");
+}
+
+/**
+    Split Pane Divider
+*/
+.split-pane {
+    -fx-border-color: #000;
+    -fx-border-width: 0px 1px 0px 1px;
+}
+
+.split-pane .split-pane-divider{
+    -fx-background-color: lightgray;
+    -fx-border-color: lightgray;
+    -fx-background-insets: 0px;
+    -fx-padding: 1px 1px 1px 1px;
+}
+
+.split-pane .split-pane-divider .horizontal-grabber {
+    -fx-background-color: #fff;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+/**
+    TableView
+*/
+.table-view {
+    -fx-background-color: #fff;
+    -fx-border-width: 0.1em;
+    -fx-border-color: #35AA47;
+    -fx-base: #fff;
+    -fx-control-inner-background: #ffff;
+    -fx-background-insets: 0, 0, 0, 0;
+    -fx-padding: 0px;
+}
+
+.table-view .placeholder{
+    -fx-background-color: #ffffff;
+    -fx-border-color: lightgray;
+    -fx-border-width: 1 0 0 0;
+    -fx-border-insets: 0 0 0 0;
+}
+
+.table-view:row-selection .column-overlay , .column-header-background{
+    -fx-background-color: white;
+}
+
+.table-view:row-selection .column-header-background .show-hide-columns-button {
+    -fx-background-color: #35AA47;
+    -fx-border-color: #fff;
+}
+
+.table-view:row-selection .column-header-background .show-hide-columns-button .show-hide-column-image {
+    -fx-background-color: #fff;
+}
+
+/**
+    table view column header 
+*/
+.table-view .column-header {
+    -fx-background-color: #35AA47;
+    -fx-border-insets: 0px;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-color: #35AA47 #35AA47 transparent #35AA47;
+    -fx-size: 35px;
+}
+
+/**
+    table view column header label
+*/
+.column-header .label {
+    -fx-font: Bold 18px "Times New Roman";
+    -fx-alignment: center;
+    -fx-text-fill: #fff;
+}
+
+.table-row-cell:even,.table-row-cell:odd{
+    -fx-background-color: #fff;
+    -fx-border-width: 0 0 0 0;
+    -fx-border-radius: 0px;
+    -fx-border-insets: 0px;
+    -fx-font: 20px "Tahoma";
+}
+
+.table-row-cell .table-cell {
+    -fx-border-width: 0 0 1 0;
+}
+
+/**
+    table view scroll bars
+*/
+.table-view .scroll-bar:vertical .track,
+.table-view .scroll-bar:horizontal .track{
+    -fx-background-color: #f0f0f0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.table-view .scroll-bar:vertical .track-background,
+.table-view .scroll-bar:horizontal .track-background{
+    -fx-background-color: #f0f0f0;
+    -fx-background-insets: 0;
+}
+
+.table-view .scroll-bar:vertical .thumb,
+.table-view .scroll-bar:horizontal .thumb{
+    -fx-background-color: #cdcdcd;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.table-view .scroll-bar:vertical  .increment-button,
+.table-view .scroll-bar:horizontal .increment-button,
+.table-view .scroll-bar:vertical .decrement-button,
+.table-view .scroll-bar:horizontal .decrement-button{
+    -fx-background-color: #f0f0f0;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.25em;
+}
+
+.table-view .scroll-bar:vertical .increment-button .increment-arrow{
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.333333em 0.5em 0.0em 0.0em; /* 4 6 0 0 */
+    -fx-shape: "M8.124,13.625l4.125-3.375v2.889l-4.125,3.86L4,13.139V10.25L8.124,13.625z";
+}
+
+.table-view .scroll-bar:vertical .decrement-button .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.333333em 0.5em 0.0em 0.0em; /* 4 6 0 0 */
+    -fx-shape: "M4,17v-2.889l4.124-3.86l4.125,3.86V17l-4.125-3.375L4,17z";
+}
+
+.table-view .scroll-bar:horizontal .increment-button .increment-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.5em 0.333333em 0.0em 0.0em; /* 6 4 0 0 */
+    -fx-shape: "M7.626,12.876L4.251,8.751H7.14L11,12.876L7.14,17H4.251L7.626,12.876z";
+}
+
+.table-view .scroll-bar:horizontal .decrement-button .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.5em 0.333333em 0.0em 0.0em; /* 6 4 0 0 */
+    -fx-shape: "M11,17H8.111l-3.86-4.124l3.86-4.125H11l-3.375,4.125L11,17z";
+}
+
+
+
+/*******************************
+*    Left side components      *
+********************************/
+.leftAnchor-pane {
+    -fx-background-color: #fff;
+    -fx-border-color: lightgray;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.left-header-label {
+    -fx-font: Bold 20px "Times New Roman";
+}
+
+.leftpane-hbox {
+    -fx-border-color: transparent transparent lightgray transparent;
+    -fx-forder-width: 0 0 1 0;
+}
+
+.system-stat-label {
+    -fx-font: bold 18px "Times New Roman";
+}
+
+.right-label-for-numbers {
+    -fx-font: bold 26px "Times New Roman";
+    -fx-alignment: BOTTOM_CENTER;
+}
+
+.right-pane-labels {
+    -fx-font: BOLD 20px "Times New Roman";
+    -fx-alignment: BOTTOM_LEFT;
+}
+
+.right-pane-labels, .right-label-for-numbers {
+    -fx-text-fill: #b2b1b1;
+}
+
+.system-stat-labels {
+    -fx-text-fill: #fff;
+    -fx-font: bold 14px "Tahoma";
+}

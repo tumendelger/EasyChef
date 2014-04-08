@@ -1,0 +1,157 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package easychef.ui;
+
+import easychef.data.User;
+import easychef.data.exceptions.UserNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+
+/**
+ * FXML Controller class
+ *
+ * @author tumee
+ */
+public class LoginController implements Initializable {
+
+    @FXML
+    private AnchorPane loginPane;
+    @FXML
+    private VBox containerVBox;
+    @FXML
+    private Pane headerPane;
+    @FXML
+    private ImageView logo;
+    @FXML
+    private Pane containerPane;
+    @FXML
+    private Label welcomeLabel;
+    @FXML
+    private TextField username;
+    @FXML
+    private Label userFieldEmpty;
+    @FXML
+    private Insets x1;
+    @FXML
+    private Insets x2;
+    @FXML
+    private PasswordField password;
+    @FXML
+    private Label pwdFieldEmpty;
+    @FXML
+    private CheckBox rememberMe;
+    @FXML
+    private Font x3;
+    @FXML
+    private Button buttonLogin;
+    @FXML
+    private Button buttonCancel;
+    @FXML
+    private Pane footerPane;
+    @FXML
+    private Label errorMsg;
+
+    private static final Logger logger = Logger.getLogger(LoginController.class.getName());
+    private LoginManager loginMgr;
+    private User user;
+
+    /**
+     * Initializes the controller class.
+     */
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        // TODO
+    }
+
+    @FXML
+    private void login() {
+        if (validateEmptyFields()) {
+            try {
+                /* * * * * * * * * * * * * * * * *
+                 * Authorization logic goes here *
+                 * * * * * * * * * * * * * * * * */
+                user = new User(username.getText());
+                if (loginMgr.authenticateUser(user, password.getText())) {
+                    loginMgr.showMain();
+                } else {
+                    errorMsg.setText("Хэрэглэгчийн нэр, нууц үгээ шалгана уу.");
+                }
+            } catch (SQLException ex) {
+                errorMsg.setText("Error 100: Холболтын алдаа гарлаа.");
+                logger.log(Level.SEVERE, null, ex);
+            } catch (UnsupportedEncodingException ex) {
+                errorMsg.setText("Error 101: UnSupported Enconding");
+                logger.log(Level.SEVERE, null, ex);
+            } catch (UserNotFoundException ex) {
+                errorMsg.setText("Error 102: Хэрэглэгч олдсонгүй.");
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    @FXML
+    private void exit() {
+        Platform.exit();
+        System.exit(0);
+    }
+
+    /**
+     * Validates whether input fields are empty
+     *
+     * @return
+     */
+    private boolean validateEmptyFields() {
+        if (username.getText().isEmpty()) {
+            showLabel(userFieldEmpty);
+            return false;
+        } else {
+            hideLabel(userFieldEmpty);
+            if (password.getText().isEmpty()) {
+                showLabel(pwdFieldEmpty);
+                return false;
+            } else {
+                hideLabel(pwdFieldEmpty);
+                return true;
+            }
+        }
+
+    }
+
+    private void showLabel(Label label) {
+        if (!label.isVisible()) {
+            label.setVisible(true);
+        }
+    }
+
+    private void hideLabel(Label label) {
+        if (label.isVisible()) {
+            label.setVisible(false);
+        }
+    }
+
+    public void setLoginMgr(final LoginManager loginMgr) {
+        this.loginMgr = loginMgr;
+    }
+
+}
