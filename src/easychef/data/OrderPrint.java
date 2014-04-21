@@ -3,18 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package easychef.data;
-
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author tumee
  */
-@XmlRootElement(namespace="print-order")
-public class OrderPrint extends MessageType{
+public class OrderPrint {
+
     private long id;
     private int status;
 
@@ -25,7 +21,6 @@ public class OrderPrint extends MessageType{
         return id;
     }
 
-    @XmlElement
     public void setId(long id) {
         this.id = id;
     }
@@ -36,12 +31,11 @@ public class OrderPrint extends MessageType{
 
     /**
      * Sets order printing status
+     *
      * @param status (0) - not printed (1) - print completed
      */
-    @XmlElement
     public void setStatus(int status) {
         this.status = status;
     }
-    
-    
+
 }

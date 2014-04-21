@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-package easychef.net;
+package easychef.data.exceptions;
 
 /**
  *
  * @author tumee
  */
-public class MessageProcessor {
-    
+public class OrderDetailNotFoundException extends Exception {
+
+    public OrderDetailNotFoundException(String msg) {
+        super(msg);
+    }
 }

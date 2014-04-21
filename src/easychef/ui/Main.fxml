@@ -20,9 +20,9 @@
           <children>
             <SplitPane fx:id="splitPane" cache="true" disable="false" dividerPositions="0.700626959247649" focusTraversable="false" prefHeight="-1.0" prefWidth="-1.0" style="" visible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" style="-fx-border-width: 0px;">
+                <AnchorPane maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;">
                   <children>
-                    <TableView id="dataTable" fx:id="orderTable" prefHeight="-1.0" prefWidth="-1.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="3.0" AnchorPane.topAnchor="3.0" />
+                    <TableView id="dataTable" fx:id="orderTable" maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -152,7 +152,7 @@
               </image>
             </ImageView>
             <Button id="buttonExit" fx:id="btnExit" layoutY="0.0" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="btnExit" text="" AnchorPane.rightAnchor="0.0" />
-            <Button id="buttonMaximize" fx:id="btnMaximize" layoutY="0.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="30.0" styleClass="btnMax" text="" AnchorPane.rightAnchor="30.0" />
+            <Button id="buttonMaximize" fx:id="btnMaximize" layoutY="0.0" mnemonicParsing="false" onAction="#maximize" prefHeight="30.0" prefWidth="30.0" styleClass="btnMax" text="" AnchorPane.rightAnchor="30.0" />
             <Button id="buttonMinimize" fx:id="btnMinimize" layoutY="0.0" mnemonicParsing="false" onAction="#minimize" prefHeight="30.0" prefWidth="30.0" styleClass="btnMin" text="" AnchorPane.rightAnchor="60.0" />
           </children>
           <BorderPane.margin>

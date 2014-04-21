@@ -11,6 +11,7 @@ package easychef.main;
 import easychef.ui.LoginManager;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,7 +30,7 @@ public class EasyChef extends Application {
         
 //        loginMgr.showLogin();
         loginMgr.showMain();
-//        primaryStage.getIcons().add(new Image("resources/Chef_45_45.png"));
+        primaryStage.getIcons().add(new Image("easychef/resources/Chef_45_45.png"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("EasyChef");
         primaryStage.show();

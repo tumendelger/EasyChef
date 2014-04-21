@@ -15,7 +15,6 @@ import static easychef.data.Constants.DB_USER;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -24,30 +23,34 @@ import java.util.logging.Logger;
  */
 public final class DBConnector {
 
+    private static final Logger logger = Logger.getLogger(DBConnector.class.getName());
     public static Connection connection;
     private PreparedStatement pStatement;
     private Statement statement;
     private ResultSet rs;
 
-    public DBConnector() {
-        try {
-            connection = getConnection();
-        } catch (SQLException ex) {
-            Logger.getLogger(DBConnector.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    /**
+     * Empty constructor creates initial connection
+     *
+     * @throws java.sql.SQLException
+     */
+    public DBConnector() throws SQLException {
+        connection = getConnection();
     }
 
     /**
      * Create new connection to Database using Constants
      *
-     * @return <Connection>
+     * @return Connection
      * @throws SQLException
      */
     public static Connection getConnection() throws SQLException {
         if (connection != null) {
+            logger.info(String.format("Connection is not NULL returning instance : %s", connection.toString()));
             return connection;
         } else {
             connection = (Connection) DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWORD);
+            logger.info(String.format("Connection is NULL creating new connection. Returning new connection: %s", connection.toString()));
             return connection;
         }
     }
@@ -68,8 +71,8 @@ public final class DBConnector {
     /**
      * Executes given prepared statement for <ResultSet>
      *
-     * @param pStat <PreparedStatement> to be executed against connection
-     * @return <ResultSet>
+     * @param pStat PreparedStatement to be executed against connection
+     * @return ResultSet
      * @throws SQLException
      */
     public ResultSet getResultSet(PreparedStatement pStat) throws SQLException {
@@ -79,10 +82,10 @@ public final class DBConnector {
     }
 
     /**
-     * Executes given query String for <ResultSet>
+     * Executes given query String for ResultSet
      *
      * @param query to be executed
-     * @return <ResultSet>
+     * @return ResultSet
      * @throws SQLException
      */
     public ResultSet getResultSet(String query) throws SQLException {
@@ -94,7 +97,7 @@ public final class DBConnector {
     /**
      * Execute prepared statement for UPDATE
      *
-     * @param pStat <PreparedStatement> to be executed
+     * @param pStat PreparedStatement to be executed
      * @return (1) number of updated rows (2) 0 if not DML query
      *
      * @throws SQLException

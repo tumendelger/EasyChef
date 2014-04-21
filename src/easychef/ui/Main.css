@@ -138,24 +138,20 @@ and open the template in the editor.
 .column-header .label {
     -fx-font: Bold 18px "Times New Roman";
     -fx-alignment: center;
-    -fx-text-fill: #fff;
+    -fx-text-fill: #1f1f1f;
 }
 
-.table-row-cell:even,.table-row-cell:odd{
-    -fx-background-color: #fff;
-    -fx-border-width: 0 0 0 0;
-    -fx-border-radius: 0px;
-    -fx-border-insets: 0px;
-    -fx-font: 20px "Tahoma";
+.table-view .table-cell:even, .table-view .table-cell:odd{    
+    -fx-font: 20px "Open Sans";
 }
-
+/*
 .table-row-cell .table-cell {
     -fx-border-width: 0 0 1 0;
 }
 
-/**
+*
     table view scroll bars
-*/
+
 .table-view .scroll-bar:vertical .track,
 .table-view .scroll-bar:horizontal .track{
     -fx-background-color: #f0f0f0;
@@ -189,30 +185,30 @@ and open the template in the editor.
 .table-view .scroll-bar:vertical .increment-button .increment-arrow{
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
     -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.333333em 0.5em 0.0em 0.0em; /* 4 6 0 0 */
+    -fx-padding: 0.333333em 0.5em 0.0em 0.0em;  4 6 0 0 
     -fx-shape: "M8.124,13.625l4.125-3.375v2.889l-4.125,3.86L4,13.139V10.25L8.124,13.625z";
 }
 
 .table-view .scroll-bar:vertical .decrement-button .decrement-arrow {
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
     -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.333333em 0.5em 0.0em 0.0em; /* 4 6 0 0 */
+    -fx-padding: 0.333333em 0.5em 0.0em 0.0em;  4 6 0 0 
     -fx-shape: "M4,17v-2.889l4.124-3.86l4.125,3.86V17l-4.125-3.375L4,17z";
 }
 
 .table-view .scroll-bar:horizontal .increment-button .increment-arrow {
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
     -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.5em 0.333333em 0.0em 0.0em; /* 6 4 0 0 */
+    -fx-padding: 0.5em 0.333333em 0.0em 0.0em;  6 4 0 0 
     -fx-shape: "M7.626,12.876L4.251,8.751H7.14L11,12.876L7.14,17H4.251L7.626,12.876z";
 }
 
 .table-view .scroll-bar:horizontal .decrement-button .decrement-arrow {
     -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
     -fx-background-insets: 1 0 -1 0, 0;
-    -fx-padding: 0.5em 0.333333em 0.0em 0.0em; /* 6 4 0 0 */
+    -fx-padding: 0.5em 0.333333em 0.0em 0.0em;  6 4 0 0 
     -fx-shape: "M11,17H8.111l-3.86-4.124l3.86-4.125H11l-3.375,4.125L11,17z";
-}
+}*/
 
 
 
@@ -255,4 +251,36 @@ and open the template in the editor.
 .system-stat-labels {
     -fx-text-fill: #fff;
     -fx-font: bold 14px "Tahoma";
+}
+
+#cancelled-order{
+    -fx-background-color: #d84a38;
+    -fx-background-insets: 10px 0 12px 0;
+}
+
+#normal-order{
+    -fx-background-color: transparent;
+}
+
+#low-wait, #medium-wait, #high-wait{
+    -fx-alignment: center;    
+    -fx-font: bold 24 "Open Sans";
+}
+
+#low-wait {
+    -fx-text-fill: #35AA74;
+}
+
+#medium-wait .text-field{
+    -fx-text-fill: #ffb848;
+}
+
+#high-wait .text-field{
+    -fx-text-fill: #ff3f3f;
+}
+
+#changes{
+    -fx-alignment: CENTER;
+    -fx-text-fill: #0080FF;
+    -fx-font: bold 12 "Times New Roman";
 }

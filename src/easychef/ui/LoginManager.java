@@ -21,8 +21,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- *  Login manager handles window action between Login screen 
- * and Main screen of the EasyChef application
+ * Login manager handles window action between Login screen and Main screen of
+ * the EasyChef application
+ *
  * @author tumee
  */
 public final class LoginManager {
@@ -42,7 +43,7 @@ public final class LoginManager {
 
     public void showLogin() {
         /**
-         * Show login screen 
+         * Show login screen
          */
         try {
             loader = new FXMLLoader(getClass().getResource("Login.fxml"));
@@ -69,9 +70,11 @@ public final class LoginManager {
      * @throws easychef.data.exceptions.UserNotFoundException
      */
     public boolean authenticateUser(User user, String pwd) throws SQLException, UnsupportedEncodingException, UserNotFoundException {
-        /************************
+        /**
+         * **********************
          * Authentication Logic * 
-         ************************/
+         ***********************
+         */
         this.user = user;
         user.getUserDetails();
 
@@ -95,7 +98,7 @@ public final class LoginManager {
     /**
      * Show main window of the EasyChef application
      */
-    public void showMain() {        
+    public void showMain() {
         try {
             loader = new FXMLLoader(getClass().getResource("Main.fxml"));
             scene.setRoot((Parent) loader.load());
@@ -109,12 +112,20 @@ public final class LoginManager {
         }
 
     }
-    
+
+    public void maximizeScreen() {
+        if (pStage.isFullScreen()) {
+            pStage.setFullScreen(false);
+        } else {
+            pStage.setFullScreen(true);
+        }
+    }
+
     /*
      * Logs out user.
      * Shows login screen to the main window
      */
-    public void logOut(){
+    public void logOut() {
         try {
             user.userLog(Constants.USER_LOGGED_OUT);
             showLogin();
