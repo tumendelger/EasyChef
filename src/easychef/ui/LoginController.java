@@ -7,6 +7,13 @@ package easychef.ui;
 
 import easychef.data.User;
 import easychef.data.exceptions.UserNotFoundException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -82,6 +89,28 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        //Load saved user instance
+        File userFile = new File("user");
+        if (userFile.exists()) {
+            try {
+                FileInputStream fis = new FileInputStream(userFile);
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                user = (User) ois.readObject();
+                username.setText(user.getUname());
+                Platform.runLater(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        password.requestFocus();
+                        rememberMe.setSelected(true);
+                    }
+                });
+            } catch (FileNotFoundException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            } catch (IOException | ClassNotFoundException ex) {
+                logger.log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     @FXML
@@ -93,6 +122,25 @@ public class LoginController implements Initializable {
                  * * * * * * * * * * * * * * * * */
                 user = new User(username.getText());
                 if (loginMgr.authenticateUser(user, password.getText())) {
+                    File userFile = new File("user");
+                    if (rememberMe.isSelected()) {
+                        logger.info("Checking existing file");
+                        if (userFile.exists()) {
+                            saveUser(userFile);
+                        } else {
+                            logger.info("File not exists. Creating new one.");
+                            try {
+                                userFile.createNewFile();
+                                saveUser(userFile);
+                            } catch (IOException ex) {
+                                logger.log(Level.SEVERE, null, ex);
+                            }
+                        }
+                    } else {
+                        if (userFile.exists()) {
+                            userFile.delete();
+                        }
+                    }
                     loginMgr.showMain();
                 } else {
                     errorMsg.setText("Хэрэглэгчийн нэр, нууц үгээ шалгана уу.");
@@ -152,6 +200,18 @@ public class LoginController implements Initializable {
 
     public void setLoginMgr(final LoginManager loginMgr) {
         this.loginMgr = loginMgr;
+    }
+
+    public void saveUser(File userFile) {
+        try {
+            FileOutputStream fos = new FileOutputStream(userFile);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(new User(user.getUname()));
+        } catch (FileNotFoundException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
     }
 
 }

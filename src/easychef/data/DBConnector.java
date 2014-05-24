@@ -5,16 +5,17 @@
  */
 package easychef.data;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import static easychef.data.Constants.DB_URL;
 import static easychef.data.Constants.DB_NAME;
 import static easychef.data.Constants.DB_PASSWORD;
 import static easychef.data.Constants.DB_USER;
+import static easychef.data.Constants.Local_DB_URL;
+import static easychef.data.Constants.USE_UTF8;
+import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Logger;
 
 /**
@@ -49,7 +50,9 @@ public final class DBConnector {
             logger.info(String.format("Connection is not NULL returning instance : %s", connection.toString()));
             return connection;
         } else {
-            connection = (Connection) DriverManager.getConnection(DB_URL + DB_NAME, DB_USER, DB_PASSWORD);
+            String URL = String.format("%s%s?%s", Local_DB_URL, DB_NAME, USE_UTF8);
+            System.out.println(URL);
+            connection = (Connection) DriverManager.getConnection(URL, DB_USER, DB_PASSWORD);
             logger.info(String.format("Connection is NULL creating new connection. Returning new connection: %s", connection.toString()));
             return connection;
         }

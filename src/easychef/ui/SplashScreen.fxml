@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="250.0" prefWidth="500.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="easychef.ui.SplashScreenController">
+  <children>
+    <BorderPane prefHeight="-1.0" prefWidth="-1.0" styleClass="mainFxmlClass" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <bottom>
+        <AnchorPane maxHeight="40.0" minHeight="40.0" prefHeight="40.0" prefWidth="-1.0" BorderPane.alignment="TOP_CENTER">
+          <children>
+            <ProgressBar fx:id="bar" cache="false" cacheHint="DEFAULT" maxHeight="-1.0" minHeight="-1.0" opacity="1.0" prefHeight="-1.0" prefWidth="-1.0" progress="-1.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+          </children>
+          <BorderPane.margin>
+            <Insets />
+          </BorderPane.margin>
+        </AnchorPane>
+      </bottom>
+      <center>
+        <AnchorPane maxHeight="50.0" maxWidth="-1.0" minHeight="50.0" prefHeight="50.0" prefWidth="-1.0">
+          <children>
+            <Label fx:id="appMessage" alignment="BOTTOM_LEFT" text="" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+              <font>
+                <Font name="Open Sans" size="16.0" />
+              </font>
+            </Label>
+          </children>
+          <BorderPane.margin>
+            <Insets top="60.0" />
+          </BorderPane.margin>
+        </AnchorPane>
+      </center>
+      <top>
+        <AnchorPane prefHeight="90.0" prefWidth="-1.0" styleClass="header">
+          <children>
+            <ImageView fitHeight="40.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+              <image>
+                <Image url="@../resources/Logo-transparent.png" />
+              </image>
+            </ImageView>
+            <Button id="buttonExit" fx:id="btnExit" disable="false" mnemonicParsing="false" onAction="#exit" prefHeight="30.0" prefWidth="30.0" styleClass="btnExit" text="" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+          </children>
+        </AnchorPane>
+      </top>
+    </BorderPane>
+  </children>
+  <stylesheets>
+    <URL value="@splashscreen.css" />
+  </stylesheets>
+</AnchorPane>

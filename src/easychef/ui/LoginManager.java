@@ -8,6 +8,7 @@ package easychef.ui;
 import easychef.data.Constants;
 import easychef.data.User;
 import easychef.data.exceptions.UserNotFoundException;
+import easychef.remote.DBSyncer;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
@@ -15,10 +16,16 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 
 /**
  * Login manager handles window action between Login screen and Main screen of
@@ -33,12 +40,51 @@ public final class LoginManager {
     private FXMLLoader loader;
     private LoginController loginController;
     private MainController mController;
+    private final Stage splashStage = new Stage();
+    private SplashScreenController sController;
     private final Stage pStage;
     private User user;
     private String HASHED_PWD;
 
     public LoginManager(final Stage pStage) {
         this.pStage = pStage;
+    }
+
+    public void showSplashScreen() {
+        /**
+         * Show Splash screen and load pre tasks
+         *
+         */
+        try {
+            loader = new FXMLLoader(getClass().getResource("SplashScreen.fxml"));
+            scene.setRoot((Parent) loader.load());
+            splashStage.initStyle(StageStyle.UNDECORATED);
+            splashStage.setScene(scene);
+            splashStage.sizeToScene();
+            splashStage.centerOnScreen();
+            sController = loader.getController();
+            sController.setLoginMgr(this);
+            sController.init();
+            splashStage.show();
+
+        } catch (IOException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void hideSplash() {
+        /**
+         * Show screen
+         */
+        Timeline fadeSplash = new Timeline();
+        fadeSplash.setCycleCount(1);
+        KeyValue fadeout = new KeyValue(splashStage.opacityProperty(), 0);
+        KeyFrame kfu = new KeyFrame(Duration.seconds(1), fadeout);
+        fadeSplash.getKeyFrames().add(kfu);
+        fadeSplash.setOnFinished((ActionEvent event) -> {
+            showLogin();
+        });
+        fadeSplash.play();
     }
 
     public void showLogin() {
@@ -51,8 +97,13 @@ public final class LoginManager {
             pStage.setScene(scene);
             pStage.sizeToScene();
             pStage.centerOnScreen();
+            pStage.toFront();
             loginController = loader.getController();
             loginController.setLoginMgr(this);
+
+            Timeline fadeInLogin = new Timeline(new KeyFrame(Duration.seconds(1), new KeyValue(pStage.opacityProperty(), 1)));
+            fadeInLogin.setCycleCount(1);
+            fadeInLogin.play();
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
@@ -72,8 +123,7 @@ public final class LoginManager {
     public boolean authenticateUser(User user, String pwd) throws SQLException, UnsupportedEncodingException, UserNotFoundException {
         /**
          * **********************
-         * Authentication Logic * 
-         ***********************
+         * Authentication Logic * **********************
          */
         this.user = user;
         user.getUserDetails();

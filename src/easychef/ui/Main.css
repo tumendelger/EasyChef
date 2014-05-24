@@ -67,6 +67,29 @@ and open the template in the editor.
     -fx-background-image: url("../resources/maximize-hover.png");
 }
 
+
+.btnStartDay, .btnEndDay{
+    -fx-background-radius: 0px;
+    -fx-background-insets: 0px;
+    -fx-text-fill: #FFFFFF;
+    -fx-font: bold 16px "Times New Roman";
+}
+
+.btnStartDay{
+    -fx-background-color: #35AA47;
+}
+
+.btnStartDay:hover{
+    -fx-background-color: #1d943b;
+}
+
+.btnEndDay{
+    -fx-background-color: #4d90fe;
+}
+
+.btnEndDay:hover{
+    -fx-background-color: #0362fd;
+}
 /**
     Split Pane Divider
 */
@@ -141,7 +164,7 @@ and open the template in the editor.
     -fx-text-fill: #1f1f1f;
 }
 
-.table-view .table-cell:even, .table-view .table-cell:odd{    
+.table-view .table-cell:even, .table-view .table-cell:odd{
     -fx-font: 20px "Open Sans";
 }
 /*
@@ -248,8 +271,16 @@ and open the template in the editor.
     -fx-text-fill: #b2b1b1;
 }
 
-.system-stat-labels {
-    -fx-text-fill: #fff;
+.system-stat-normal {
+    -fx-background-color: #35AA47;    
+}
+
+.system-stat-error{
+    -fx-background-color: #FF3F3F;
+}
+
+.system-stat-error, .system-stat-normal{
+    -fx-text-fill: #FFF;    
     -fx-font: bold 14px "Tahoma";
 }
 

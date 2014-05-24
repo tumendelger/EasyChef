@@ -84,7 +84,7 @@ public class OrderDetail {
     //Get all order details i.e: orderid, ordertime etc..,
     private final String findDetailsByOrderID = "SELECT orders.id," //field index in result set 1
             + "forderdetails.id, " //2
-            + "orders.tid, " //3
+            + "tables.tableid, " //3
             + "foodid, " //4
             + "foodmenu.name, " //5
             + "haschange, " //6
@@ -93,11 +93,12 @@ public class OrderDetail {
             + "cancelbych, " //9
             + "forderdetails.ordertime, " //10
             + "orders.uid " //11
-            + "FROM orders, forderdetails, foodmenu "
+            + "FROM orders, forderdetails, foodmenu, tables "
             + "WHERE orders.id=forderdetails.orderid "
             + "AND foodmenu.id=foodid "
             + "AND isdelivered=0 "
             + "AND orders.id=? "
+            + "AND tables.id=orders.tid, "
             + "ORDER BY forderdetails.id ASC";
 
     //Get all drink order details which sent to kitchen
@@ -155,6 +156,7 @@ public class OrderDetail {
     //drink or food
     private final String deliverFoodOrder = "UPDATE forderdetails "
             + "SET isdelivered=?, "
+            + "waittime=?, "
             + "cancelbyw=?, "
             + "cancelbych=? "
             + "WHERE id=?";
@@ -190,6 +192,8 @@ public class OrderDetail {
      * @param waiterCancelled
      * @param chefCancelled
      * @param orderTime
+     * @param uid
+     * @param isDrink
      */
     public OrderDetail(long orderID, long id, Integer tableid, int foodID, String foodName, boolean hasChange, boolean delivered, boolean waiterCancelled, boolean chefCancelled, String orderTime, int uid, boolean isDrink) {
         this.orderID = orderID;
@@ -346,9 +350,10 @@ public class OrderDetail {
             logger.info(String.format("Prepared Statement created: %s", pStat.getPreparedSql()));
 
             pStat.setInt(1, (isDelivered()) ? 1 : 0);
-            pStat.setInt(2, (isWaiterCancelled()) ? 1 : 0);
-            pStat.setInt(3, (isChefCancelled()) ? 1 : 0);
-            pStat.setLong(4, getId());
+            pStat.setInt(2, getWaitTime());
+            pStat.setInt(3, (isWaiterCancelled()) ? 1 : 0);
+            pStat.setInt(4, (isChefCancelled()) ? 1 : 0);
+            pStat.setLong(5, getId());
 
             logger.info(String.format("Delivering order: %s", this.toString()));
             logger.info(String.format("Executing query: %s", pStat.toString()));

@@ -12,6 +12,10 @@ and open the template in the editor.
 
 }
 
+.containerPane{
+    -fx-background-color: #ffffff;   
+}
+
 .errorlabel {
     -fx-font: 13px "Tahoma";
     -fx-text-fill: #ff3f3f;    

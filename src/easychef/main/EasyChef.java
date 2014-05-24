@@ -5,11 +5,24 @@ package easychef.main;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
-
-
 import easychef.ui.LoginManager;
+import easychef.ui.SplashScreenController;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.application.Preloader.ProgressNotification;
+import javafx.application.Preloader.StateChangeNotification;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Task;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
@@ -21,19 +34,27 @@ import javafx.stage.StageStyle;
  * @author tumee
  */
 public class EasyChef extends Application {
-    
+
+    Scene scene;    
+    LoginManager loginMgr;
+
     @Override
     public void start(final Stage primaryStage) {
-        final LoginManager loginMgr = new LoginManager(primaryStage);
-        final Scene scene = new Scene(new StackPane());
-        loginMgr.setScene(scene);
-        
+
+        loginMgr = new LoginManager(primaryStage);
+        scene = new Scene(new StackPane());
+        loginMgr.setScene(scene);        
+        loginMgr.showSplashScreen();
 //        loginMgr.showLogin();
-        loginMgr.showMain();
+//        loginMgr.showMain();
+        
         primaryStage.getIcons().add(new Image("easychef/resources/Chef_45_45.png"));
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setTitle("EasyChef");
+        primaryStage.opacityProperty().set(0);
+        primaryStage.toBack();
         primaryStage.show();
+
     }
 
     /**
@@ -47,5 +68,5 @@ public class EasyChef extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }

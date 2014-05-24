@@ -1,0 +1,55 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.mainFxmlClass {
+    -fx-background-color: #1f1f1f;
+    -fx-border-color: #1f1f1f;
+    -fx-border-insets: 0px;
+    -fx-border-radius: 1px;
+}
+
+.header{
+    -fx-background-color: #1f1f1f;
+}
+
+
+.btnExit {
+    -fx-background-color: #1f1f1f;
+    -fx-background-radius: 0px;
+    -fx-background-insets: 0px;
+    -fx-content-display: center;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+    -fx-background-image: url("../resources/remove-white.png");    
+}
+
+.btnExit:hover {
+    -fx-background-image: url("../resources/remove-hover.png");
+}
+
+.progress-bar{    
+    -fx-border-insets: 0px;
+    -fx-border-radius: 0px;
+}
+
+.progress-bar > .track{ 
+    -fx-background-insets: 0px;
+    -fx-border-insets: 0px;
+    -fx-border-radius: 0px;
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #F9F9F9 0%, #F5F5F5 100%);
+}
+
+.progress-bar > .bar{
+    -fx-border-insets: 0px;
+    -fx-border-radius: 0px;
+    -fx-background-insets: 0px;
+    -fx-background-color: linear-gradient(
+        from 0px .75em to .75em 0px,
+        repeat,
+        #ee5f5b 0%,
+        #ee5f5b 49%,
+        derive(#ee5f5b, 30%) 50%,
+        derive(#ee5f5b, 30%) 99%
+        );
+}

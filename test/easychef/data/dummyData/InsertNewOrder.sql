@@ -2,7 +2,9 @@
 -- Insert new orders for testing
 --
 
-INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES (1234567891,'2014-03-20 15:10:30',68800,6880,0,0,0,0,75680,1,1,3,'0','2014-03-20',0);
+use easysystems;
+
+INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES (1234567891,'2014-03-20 15:10:30',68800,6880,0,0,0,0,75680,1,1,2,'0','2014-03-20',0);
 
 
 --
@@ -29,7 +31,7 @@ INSERT INTO dorderdetails(id, drinkid, price, isdelivered, ordertime, cancelbyw,
 -- This order some detail has changes
 --
 
-INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES (1234567892,'2014-03-20 16:20:30',29400,2940,0,0,0,0,32340,1,1,3,'0','2014-03-20',0);
+INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES (1234567892,'2014-03-20 16:20:30',29400,2940,0,0,0,0,32340,1,1,2,'0','2014-03-20',0);
 
 INSERT INTO forderdetails(id, foodid, haschange, price, isdelivered, ordertime, cancelbyw, cancelbych, mcid, orderid) VALUES (12347,2,0,9800,0,'2014-03-20 16:20:30',0,0, 1,1234567892);
 INSERT INTO forderdetails(id, foodid, haschange, price, isdelivered, ordertime, cancelbyw, cancelbych, mcid, orderid) VALUES (12348,4,0,9800,0,'2014-03-20 16:20:32',0,0, 1,1234567892);
@@ -40,7 +42,7 @@ INSERT INTO forderdetails(id, foodid, haschange, price, isdelivered, ordertime, 
 --
 --
 
-INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES (1234567893,'2014-03-20 16:20:30',29400,2940,0,0,0,0,32340,1,1,3,'0','2014-03-20',0);
+INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES (1234567893,'2014-03-20 16:20:30',29400,2940,0,0,0,0,32340,1,1,2,'0','2014-03-20',0);
 
 INSERT INTO forderdetails(id, foodid, haschange, price, isdelivered, ordertime, cancelbyw, cancelbych, mcid, orderid) VALUES (12350,2,0,9800,0,'2014-03-20 16:20:30',0,0, 1,1234567893);
 INSERT INTO forderdetails(id, foodid, haschange, price, isdelivered, ordertime, cancelbyw, cancelbych, mcid, orderid) VALUES (12351,4,0,9800,0,'2014-03-20 16:20:32',0,0, 1,1234567893);

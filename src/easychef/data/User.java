@@ -6,6 +6,7 @@
 package easychef.data;
 
 import easychef.data.exceptions.UserNotFoundException;
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author tumee
  */
-public final class User {
+public final class User implements Serializable{
 
     private static final Logger logger = Logger.getLogger(User.class.getName());
     private int id;

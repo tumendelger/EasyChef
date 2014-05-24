@@ -32,7 +32,7 @@
                         <Label alignment="CENTER" styleClass="left-header-label" text="Амжилтын үзүүлэлт" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0" />
                       </children>
                     </AnchorPane>
-                    <VBox prefHeight="400.0" prefWidth="100.0" styleClass="leftpane-vbox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
+                    <VBox prefHeight="-1.0" prefWidth="100.0" styleClass="leftpane-vbox" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0">
                       <children>
                         <AnchorPane id="AnchorPane" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
                           <children>
@@ -123,12 +123,52 @@
                               <children>
                                 <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
                                   <children>
-                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Сервер" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
-                                    <Label fx:id="serverStatusLabel" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="-fx-background-color: #35AA47;" styleClass="system-stat-labels" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Систем огноо:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label id="serverStatusLabel" fx:id="systemDate" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="" styleClass="system-stat-label" text="2014-05-01" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
                                   </children>
                                 </AnchorPane>
                               </children>
                             </HBox>
+                            <HBox minHeight="-1.0" prefHeight="40.0" prefWidth="-1.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="330.0">
+                              <children>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Сүлжээ:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label id="serverStatusLabel" fx:id="networkStatusLabel" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="" styleClass="system-stat-error" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <HBox minHeight="-1.0" prefHeight="40.0" prefWidth="-1.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="370.0">
+                              <children>
+                                <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
+                                  <children>
+                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Принтер:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label id="serverStatusLabel" fx:id="printerStatusLabel" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="" styleClass="system-stat-normal" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                  </children>
+                                </AnchorPane>
+                              </children>
+                            </HBox>
+                            <VBox prefHeight="90.0" prefWidth="-1.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="500.0">
+                              <children>
+                                <AnchorPane id="AnchorPane" prefHeight="40.0">
+                                  <children>
+                                    <Button disable="false" mnemonicParsing="false" styleClass="btnStartDay" text="Өдөр эхлүүлэх" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                  <VBox.margin>
+                                    <Insets top="5.0" />
+                                  </VBox.margin>
+                                </AnchorPane>
+                                <AnchorPane id="AnchorPane" prefHeight="40.0">
+                                  <children>
+                                    <Button mnemonicParsing="false" styleClass="btnEndDay" text="Өдөр өндөрлөх" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="5.0" />
+                                  </children>
+                                  <VBox.margin>
+                                    <Insets />
+                                  </VBox.margin>
+                                </AnchorPane>
+                              </children>
+                            </VBox>
                           </children>
                           <VBox.margin>
                             <Insets />

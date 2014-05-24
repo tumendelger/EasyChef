@@ -5,7 +5,10 @@
  */
 package easychef.ui;
 
+import easychef.data.Constants;
+import easychef.data.DeliveryStats;
 import easychef.data.OrderDetail;
+import easychef.data.utils.SystemSettings;
 import easychef.net.ClientMessageHandler;
 import easychef.net.Message;
 import static easychef.net.Message.msgType.ALL;
@@ -24,7 +27,10 @@ import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -81,7 +87,11 @@ public class MainController implements Initializable {
     @FXML
     private Label noOfCancelOrdersWithCost;
     @FXML
-    private Label serverStatusLabel;
+    private Label systemDate;
+    @FXML
+    private Label networkStatusLabel;
+    @FXML
+    private Label printerStatusLabel;
     @FXML
     private AnchorPane footerPane;
     @FXML
@@ -117,6 +127,9 @@ public class MainController implements Initializable {
     private ClientMessageHandler mHandler;
     private OrderHandler oHandler;
     private LoginManager loginMgr;
+    private SystemSettings settings;
+
+    public static DeliveryStats deliveryStats;
 
     /**
      * Initializes the controller class.
@@ -126,6 +139,12 @@ public class MainController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        try {
+            settings = new SystemSettings();
+            settings.loadSettings();
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+        }
         // Initialize TableView first
         initTableView();
 
@@ -143,6 +162,12 @@ public class MainController implements Initializable {
         //Initialize oHandler
         oHandler = OrderHandler.getInstance();
 
+        //Init stats
+        deliveryStats = new DeliveryStats("2014-04-23");
+        deliveryStats.initDailyStatistics();
+
+        initLabels();
+
         //Load all orders in the system
         Message all = new Message(ALL, 0);
         mHandler.addClientMsg(all);
@@ -151,6 +176,7 @@ public class MainController implements Initializable {
         wtUpdater = new WaitTimeUpdater();
         wtUpdater.setOrders(orderData);
         wtUpdater.start();
+
     }
 
     /**
@@ -230,6 +256,7 @@ public class MainController implements Initializable {
                         }
                     }
                 };
+                cell.setId("foodName");
                 return cell;
             }
         });
@@ -260,9 +287,10 @@ public class MainController implements Initializable {
                             setText(null);
                         }
                         setGraphic(null);
+                        setTextFill(Paint.valueOf(settings.getCH()));
                     }
                 };
-                cell.setId("changes");
+                cell.setStyle("-fx-font:bold 14 \"Times New Roman\"");
                 return cell;
             }
         });
@@ -283,15 +311,15 @@ public class MainController implements Initializable {
 
                             if (item < 10) {
                                 //Low wait orders
-                                setTextFill(Paint.valueOf("#35AA74"));
+                                setTextFill(Paint.valueOf(settings.getLWC()));
 //                                this.setId("low-wait");
                             } else {
                                 if (item > 15) {
                                     //High wait order
-                                    setTextFill(Paint.valueOf("#ff3f3f"));
+                                    setTextFill(Paint.valueOf(settings.getHWC()));
 //                                    this.setId("high-wait");
                                 } else {
-                                    setTextFill(Paint.valueOf("#ffb848"));
+                                    setTextFill(Paint.valueOf(settings.getMWC()));
 //                                    this.setId("medium-wait");
                                 }
                             }
@@ -378,15 +406,10 @@ public class MainController implements Initializable {
         //OrderTable selection listener
         orderTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        orderTable.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<OrderDetail>() {
-
-            @Override
-            public void changed(ObservableValue<? extends OrderDetail> observable, OrderDetail oldValue, OrderDetail newValue) {
-                //Notify index is changes
-                if (orderTable.getSelectionModel().getSelectedIndex() >= 0) {
-                    orderToProcess = orderTable.getSelectionModel().getSelectedItem();
-                    showMenu();
-                }
+        orderTable.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends OrderDetail> observable, OrderDetail oldValue, OrderDetail newValue) -> {
+            if (orderTable.getSelectionModel().getSelectedIndex() >= 0) {
+                orderToProcess = orderTable.getSelectionModel().getSelectedItem();
+                showMenu();
             }
         });
 
@@ -428,6 +451,28 @@ public class MainController implements Initializable {
         orderTable.setContextMenu(tableMenu);
     }
 
+    /**
+     * Initialize status labels
+     */
+    private void initLabels() {
+        systemDate.textProperty()
+                .bind(Bindings.convert(settings.getSystemDate()));
+        noOfLowWaits.textProperty()
+                .bind(Bindings.convert(deliveryStats.getLowWaitOrders()));
+        noOfMediumWaits.textProperty()
+                .bind(Bindings.convert(deliveryStats.getMedWaitOrders()));
+        noOfHighWaits.textProperty()
+                .bind(Bindings.convert(deliveryStats.getHighWaitOrders()));
+        noOfCancelOrdersWithoutCost.textProperty()
+                .bind(Bindings.convert(deliveryStats.getcOrdersNoCost()));
+        noOfCancelOrdersWithCost.textProperty()
+                .bind(Bindings.convert(deliveryStats.getcOrdersWithCost()));
+
+        //Bind network and printer status labels
+//        networkStatusLabel.textProperty().bind();
+//        printerStatusLable.textProperty().bind();
+    }
+
     private void showMenu() {
 
         if (orderToProcess.isWaiterCancelled()) {
@@ -444,25 +489,6 @@ public class MainController implements Initializable {
     }
 
     /**
-     * We have to interact TableView items within from JavaFX application thread
-     * To do this need to invoke runlater method of Platform
-     */
-    public static void applyUpdateToUI() {
-
-        OrderDetail last = orderData.get(orderData.size() - 1);
-        orderData.remove(last);
-
-        Platform.runLater(() -> {
-            try {
-                Thread.sleep(100);
-                orderData.add(last);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        });
-    }
-
-    /**
      * Exit application
      *
      * @throws SQLException
@@ -470,7 +496,7 @@ public class MainController implements Initializable {
     @FXML
     public void exit() throws SQLException {
         // Logout connected user first
-//        loginMgr.getUser().userLog(Constants.USER_LOGGED_OUT);
+        loginMgr.getUser().userLog(Constants.USER_LOGGED_OUT);
         Platform.exit();
         System.exit(0);
     }
