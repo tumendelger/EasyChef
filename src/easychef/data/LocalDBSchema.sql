@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS carddiscount (
   id int(11) NOT NULL AUTO_INCREMENT,
   name varchar(100) NOT NULL,
   percentage float NOT NULL,
-  conditions int(11) NOT NULL COMMENT 'heden tugrugnii bolzol hangaj baij ene 5 ezemshig erhtei boloh ve',
+  conditions int(11) NOT NULL COMMENT 'heden tugrugnii bolzol hangaj baij ene 5 ezemshi erhtei boloh ve',
   ctid int(11) NOT NULL COMMENT 'CardTypeID',
   action int(11) NOT NULL DEFAULT 0 COMMENT '0=new; 1=update;2=delete',
   actiontime datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

@@ -98,7 +98,7 @@ public class OrderDetail {
             + "AND foodmenu.id=foodid "
             + "AND isdelivered=0 "
             + "AND orders.id=? "
-            + "AND tables.id=orders.tid, "
+            + "AND tables.id=orders.tid "
             + "ORDER BY forderdetails.id ASC";
 
     //Get all drink order details which sent to kitchen
@@ -163,6 +163,7 @@ public class OrderDetail {
 
     private final String deliverDrinkOrder = "UPDATE dorderdetails "
             + "SET isdelivered=?, "
+            + "waittime=?,"
             + "cancelbyw=?, "
             + "cancelbych=? "
             + "WHERE id=?";

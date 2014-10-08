@@ -6,8 +6,8 @@
 package easychef.net;
 
 import easychef.data.OrderDetail;
+import easychef.data.PrintOrder;
 import static easychef.net.Message.msgType.CANCEL;
-import easychef.ui.MainController;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -190,7 +190,6 @@ public class ClientMessageHandler extends Thread {
         detail.setOrderID(id);
         try {
             detail.getOrderDetailsByOID(tableData);
-//            detail.getDrinksByOID(tableData);
         } catch (SQLException ex) {
             logger.log(Level.SEVERE, null, ex);
         }
@@ -213,7 +212,17 @@ public class ClientMessageHandler extends Thread {
      */
     private void printOrderBill(long id) {
         logger.info(String.format("Order bill requested [OrderID: %s]. Start printing bill.", id));
-        //TO DO
+
+        PrintOrder orderToPrint = new PrintOrder(id);
+        orderToPrint.getBillDetails();
+
+        logger.info(String.format("Print request received for Order:%s", id));
+        logger.info(String.format("Printing Order| %s", orderToPrint.toString()));
+
+        //TO DO 
+        //Print service code here
+        
+        
     }
 
     /**

@@ -39,14 +39,14 @@ public class RemoteService extends Thread {
     private final double CHECK_FREQ = 60;
 
     //Database variables
-    private String localURL, remoteURL;
+    private final String localURL, remoteURL;
     private Connection remoteCon, localCon;
-    PreparedStatement remotePS, localPS;
-    ResultSet orders, foodOrderDetails, drinkOrderDetails;
+    PreparedStatement orderRemotePS, orderLocalPS, oDetailPS;
+    ResultSet orders, foodOrders, drinkOrders;
 
     //Get orders that are finalized
     //ispaid=1 order already payed, syn_status=0 order is NOT synced at the moment
-    private final String getOrders = "SELECT id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status FROM orders WHERE ispaid=1 AND syn_status=0";
+    private final String getOrders = "SELECT id, ordertime, totalprice, vat, discount, cash, card, totalAmount, tid, mid, uid, promocode, systemdate FROM orders WHERE ispaid=1 AND syn_status=0";
     private final String iOrder = "INSERT INTO orders(id, ordertime, totalprice, vat, discount, cash, card, ispaid, totalAmount, tid, mid, uid, promocode, systemdate, syn_status) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     //Update status of the orders once synced
@@ -68,6 +68,7 @@ public class RemoteService extends Thread {
 
         remoteURL = String.format("%s%s?%s", Remote_DB_URL, Remote_DB_NAME, USE_UTF8);
         logger.info(String.format("Remote DB URL set | %s", remoteURL));
+
     }
 
     @Override
@@ -86,7 +87,7 @@ public class RemoteService extends Thread {
 
                     int no = 0;
                     while (orders.next()) {
-                        
+
                     }
 
                 }//else do nothing
@@ -118,4 +119,239 @@ public class RemoteService extends Thread {
         }
     }
 
+    /**
+     *
+     * @param orderid
+     * @return
+     */
+    public ResultSet getFoodOrders(long orderid) {
+        try {
+            PreparedStatement pStat;
+
+            if (localCon == null) {
+                logger.info("Local connection to DB is null. Try to connect local BD.");
+                localCon = DriverManager.getConnection(localURL, DB_USER, DB_PASSWORD);
+                logger.info("Connected to local DB successfully.");
+            }
+
+            logger.info(String.format("Getting FoodOrderDetails for order | %s", orderid));
+            pStat = localCon.prepareStatement(getFoodOrderDetails);
+            pStat.setLong(1, orderid);
+
+            return pStat.executeQuery();
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    /**
+     * m
+     *
+     * @param orderid
+     * @return
+     */
+    public ResultSet getDrinkOrders(long orderid) {
+        PreparedStatement ps;
+        try {
+            if (localCon == null) {
+                logger.info("Local connection to DB is null. Try to connect local BD.");
+                localCon = DriverManager.getConnection(localURL, DB_USER, DB_PASSWORD);
+                logger.info("Connected to local DB successfully.");
+            }
+
+            logger.info(String.format("Getting FoodOrderDetails for order | %s", orderid));
+            ps = localCon.prepareStatement(getDrinkOrderDetails);
+            ps.setLong(1, orderid);
+
+            return ps.executeQuery();
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    /**
+     * insert all the FoodOrderDetails to Remote server
+     *
+     * @param orders
+     * @return
+     */
+    public boolean processOrder(ResultSet orders) {
+        try {
+            while (orders.next()) {
+                /**
+                 * For every orders that are NOT synced Create connection to
+                 * remote site and sync order and other related details
+                 */
+                long oid = orders.getLong(1);
+                String otime = orders.getString(2);
+                double totalprice = orders.getDouble(3);
+                double vat = orders.getDouble(4);
+                double discount = orders.getDouble(5);
+                double cash = orders.getDouble(6);
+                double card = orders.getDouble(7);
+                double totalAmount = orders.getDouble(8);
+                int tid = orders.getInt(9);
+                int mid = orders.getInt(10);
+                int uid = orders.getInt(11);
+                String promocode = orders.getString(12);
+                String sysDate = orders.getString(13);
+
+                if (remoteCon == null) {
+                    logger.info("Remote connection to DB is null. Try to connect remote BD.");
+                    remoteCon = DriverManager.getConnection(remoteURL, DB_USER, DB_PASSWORD);
+                    logger.info("Connected to remote DB successfully.");
+
+                    /**
+                     * Set autocommit false After syncing every forderdetails
+                     * and drinkorderdetails to server we commit transaction
+                     */
+                    remoteCon.setAutoCommit(false);
+                }
+
+                orderRemotePS = remoteCon.prepareStatement(iOrder);
+                orderRemotePS.setLong(1, oid);
+                orderRemotePS.setString(2, otime);
+                orderRemotePS.setDouble(3, totalprice);
+                orderRemotePS.setDouble(4, vat);
+                orderRemotePS.setDouble(5, discount);
+                orderRemotePS.setDouble(6, cash);
+                orderRemotePS.setDouble(7, card);
+                orderRemotePS.setInt(8, 1);
+                orderRemotePS.setDouble(9, totalAmount);
+                orderRemotePS.setInt(10, tid);
+                orderRemotePS.setInt(11, mid);
+                orderRemotePS.setInt(12, uid);
+                orderRemotePS.setString(13, promocode);
+                orderRemotePS.setString(14, sysDate);
+                orderRemotePS.setInt(15, 1);
+
+                logger.info(String.format("Executing prepared statememt | %s", orderRemotePS));
+                orderRemotePS.execute();
+
+                logger.info(String.format("Successfully executed statement | %s", orderRemotePS));
+
+                //Process Food order Details and Drink Order Details
+                if (!processOrderDetails(oid)) {
+                    logger.info(String.format("Something went wrong while processing Order[%s]", oid));
+                    return false;
+                }
+
+            }//WHILE orders
+
+            return true;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return false;
+        }
+    }
+
+    public boolean processOrderDetails(long orderid) {
+
+        int n = 0;
+
+        //Get FoodOrderDetails 
+        if (localCon == null) {
+            try {
+                logger.info(String.format("%s connection is NULL", localURL));
+                logger.info(String.format("Try connecting | %s", localURL));
+
+                localCon = DriverManager.getConnection(localURL, DB_USER, DB_PASSWORD);
+
+                logger.info(String.format("Successfully connected to [LocalDB] | %s", localCon.toString()));
+            } catch (SQLException ex) {
+                Logger.getLogger(RemoteService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        try {
+            logger.info(String.format("Getting [FoodOrderDetails] for OrderID: %s", orderid));
+
+            foodOrders = getFoodOrders(orderid);
+
+            logger.info(String.format("Successfully retrieved [FoodOrderDetails]: %s", foodOrders.toString()));
+
+            while (foodOrders.next()) {
+                long id = foodOrders.getLong(1);
+                int foodid = foodOrders.getInt(2);
+                int haschange = foodOrders.getInt(3);
+                double price = foodOrders.getDouble(4);
+                int isdelivered = foodOrders.getInt(5);
+                int waittime = foodOrders.getInt(6);
+                String orderTime = foodOrders.getString(7);
+                int cbw = foodOrders.getInt(8);
+                int cbc = foodOrders.getInt(9);
+                int mcid = foodOrders.getInt(10);
+
+                oDetailPS = remoteCon.prepareStatement(iOrderDetail);
+                oDetailPS.setLong(1, id);
+                oDetailPS.setInt(2, foodid);
+                oDetailPS.setInt(3, haschange);
+                oDetailPS.setDouble(4, price);
+                oDetailPS.setInt(5, isdelivered);
+                oDetailPS.setInt(6, waittime);
+                oDetailPS.setString(7, orderTime);
+                oDetailPS.setInt(8, cbw);
+                oDetailPS.setInt(9, cbc);
+                oDetailPS.setInt(10, mcid);
+                oDetailPS.setLong(11, orderid);
+
+                logger.info(String.format("Executing | %s", oDetailPS.toString()));
+                oDetailPS.execute();
+
+                logger.info(String.format("Successfully executed | %s", oDetailPS.toString()));
+                n++;
+            }
+
+            logger.info(String.format("Successfully synced FoodOrderDetails for Order[%s]", orderid));
+            logger.info(String.format("Total FoodOrderDetails Synced: [%s]", n));
+
+            logger.info(String.format("Getting [DrinkOrderDetails] for OrderID: %s", orderid));
+
+            drinkOrders = getDrinkOrders(orderid);
+
+            logger.info(String.format("Successfully retrieved [DrinkOrderDetails]: %s", drinkOrders.toString()));
+
+            n = 0;
+
+            while (drinkOrders.next()) {
+                long id = drinkOrders.getLong(1);
+                int drinkid = drinkOrders.getInt(2);
+                double price = drinkOrders.getInt(3);
+                int isdelivered = drinkOrders.getInt(4);
+                String ordertime = drinkOrders.getString(5);
+                int waittime = drinkOrders.getInt(6);
+                int cancelbyw = drinkOrders.getInt(7);
+                int cancelbych = drinkOrders.getInt(8);
+                int mcid = drinkOrders.getInt(9);
+
+                oDetailPS = remoteCon.prepareStatement(iDrinkOrderDetail);
+                oDetailPS.setLong(1, id);
+                oDetailPS.setInt(2, drinkid);
+                oDetailPS.setDouble(3, price);
+                oDetailPS.setInt(4, isdelivered);
+                oDetailPS.setString(5, ordertime);
+                oDetailPS.setInt(6, waittime);
+                oDetailPS.setInt(7, cancelbyw);
+                oDetailPS.setInt(8, cancelbych);
+                oDetailPS.setInt(9, mcid);
+                oDetailPS.setLong(10, orderid);
+
+                logger.info(String.format("Executing | %s", oDetailPS.toString()));
+                oDetailPS.execute();
+
+                logger.info(String.format("Successfully executed | %s", oDetailPS.toString()));
+                n++;
+            }
+
+            logger.info(String.format("Successfully synced all DrinkOrderDetails for Order[%s]", orderid));
+            logger.info(String.format("Total DrinkOrderDetails Synced: [%s]", n));
+            return true;
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, null, ex);
+            return false;
+        }
+
+    }
 }

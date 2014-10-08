@@ -188,7 +188,7 @@ public class DBSyncer extends Task {
     private void updateLastUpdate() {
         try {
             PreparedStatement ps = DBConnector.getConnection().prepareStatement(DBSyncSQLs.updateParameter);
-            SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd hh-mm-ss");
+            SimpleDateFormat df = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
             Date now = new Date(System.currentTimeMillis());
             ps.setString(1, df.format(now));
             ps.setString(2, "LAST_UPDATE");

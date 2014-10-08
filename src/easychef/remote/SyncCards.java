@@ -21,7 +21,7 @@ public class SyncCards {
 
     private final String getCardDiscounts = "SELECT id, name, percentage, conditions, ctid, action FROM carddiscount WHERE actiontime>?";
     private final String insertCardDiscount = "INSERT INTO carddiscount(id, name, percentage, conditions, ctid) VALUES(?,?,?,?,?)";
-    private final String updateCardDiscount = "UPDATE carddiscount SET name=?, percentage=?, conditions=? WHERE id=?";
+    private final String updateCardDiscount = "UPDATE carddiscount SET name=?, percentage=?, conditions=?, action=? WHERE id=?";
     private final String deleteCardDiscount = "DELETE FROM carddiscount WHERE id=?";
 
     private final String getPromoCodes = "SELECT id, code, discount, starts, ends, isactive, pctid, action FROM promocode WHERE actiontime>?";
@@ -71,7 +71,8 @@ public class SyncCards {
                     localPs.setString(1, name);
                     localPs.setFloat(2, per);
                     localPs.setInt(3, condition);
-                    localPs.setLong(4, id);
+                    localPs.setInt(4, action);
+                    localPs.setLong(5, id);
                     localPs.execute();
                     break;
             }

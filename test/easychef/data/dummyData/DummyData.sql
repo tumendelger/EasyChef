@@ -5,7 +5,7 @@ USE remote;
 --
 --  Insert carddiscount
 --
-INSERT INTO carddiscount(name, percentage, conditions, ctid) VALUES ('Membership card 5%',5.0,100000,1), ('Membership card 10%',10.0,500000,1), ('Membership card 5%',5.0,100000,1);
+INSERT INTO carddiscount(name, percentage, conditions, ctid) VALUES ('Membership card 5%',5.0,100000,1), ('Membership card 10%',10.0,500000,1);
 
 -- -----------------------------------------------
 --
