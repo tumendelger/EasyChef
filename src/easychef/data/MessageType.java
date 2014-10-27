@@ -17,4 +17,5 @@ public abstract class MessageType {
     public static final String ORDER_READY = "Order-Ready";
     public static final String PRINT_ORDER = "Print-Order";
     public static final String MERGE_TABLE = "Merge-Table";
+
 }

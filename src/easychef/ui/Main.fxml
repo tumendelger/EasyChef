@@ -22,7 +22,7 @@
               <items>
                 <AnchorPane maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;">
                   <children>
-                    <TableView id="dataTable" fx:id="orderTable" focusTraversable="false" maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <TableView id="dataTable" fx:id="orderTable" maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">

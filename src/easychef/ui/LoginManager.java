@@ -85,6 +85,7 @@ public final class LoginManager {
             showLogin();
         });
         fadeSplash.play();
+        splashStage.close();
     }
 
     public void showLogin() {

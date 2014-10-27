@@ -9,8 +9,10 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 import easychef.data.exceptions.OrderDetailNotFoundException;
+import easychef.data.utils.DateTimeUtils;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -207,7 +209,15 @@ public class OrderDetail {
         this.waiterCancelled = waiterCancelled;
         this.chefCancelled = chefCancelled;
         this.orderTime = orderTime;
-        this.uid = uid;
+
+        DateTimeUtils dtu = new DateTimeUtils();
+        try {
+            this.waitTime = dtu.getTimeDifferenceInMinutes(orderTime);
+        } catch (ParseException ex) {
+            Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.waitTime
+                = this.uid = uid;
         this.isDrink = isDrink;
     }
 

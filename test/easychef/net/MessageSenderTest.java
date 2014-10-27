@@ -51,6 +51,7 @@ public class MessageSenderTest {
      *
      * @throws java.lang.Exception
      */
+    @Ignore
     @Test
     public void testGetClientIP() throws Exception {
         System.out.println("getClientIP");
