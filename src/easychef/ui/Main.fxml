@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="root" maxHeight="1080.0" maxWidth="1920.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="easychef.ui.MainController">
+<AnchorPane id="root" maxHeight="1080.0" maxWidth="1920.0" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="easychef.ui.MainController">
   <children>
     <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #000;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
       <bottom>
@@ -22,7 +22,7 @@
               <items>
                 <AnchorPane maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;">
                   <children>
-                    <TableView id="dataTable" fx:id="orderTable" maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                    <TableView id="dataTable" fx:id="orderTable" focusTraversable="false" maxHeight="-1.0" maxWidth="892.0" minHeight="-1.0" minWidth="892.0" prefHeight="-1.0" prefWidth="892.0" style="-fx-border-width: 0px;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children>
                 </AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
@@ -43,7 +43,7 @@
                                     <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Бага хүлээлттэй" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
                                     <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="2.0">
                                       <image>
-                                        <Image url="@../resources/green-smile.png" backgroundLoading="false" />
+                                        <Image backgroundLoading="false" url="@../resources/green-smile.png" />
                                       </image>
                                     </ImageView>
                                     <Label id="noLowWaits" fx:id="noOfLowWaits" maxHeight="30.0" maxWidth="50.0" minHeight="30.0" minWidth="50.0" prefHeight="30.0" prefWidth="50.0" styleClass="right-label-for-numbers" text="10" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />

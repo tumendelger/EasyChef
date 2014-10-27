@@ -163,7 +163,7 @@ public class MainController implements Initializable {
         oHandler = OrderHandler.getInstance();
 
         //Init stats
-        deliveryStats = new DeliveryStats("2014-04-23");
+        deliveryStats = new DeliveryStats(settings.getSystemDate().getValue());
         deliveryStats.initDailyStatistics();
 
         initLabels();
@@ -278,7 +278,7 @@ public class MainController implements Initializable {
 
                                 // Add items text
                                 for (String change : item) {
-                                    changeItem = changeItem + change + " ";
+                                    changeItem = changeItem + change + " \n";
                                 }
                                 setText(changeItem);
                             }
@@ -290,7 +290,7 @@ public class MainController implements Initializable {
                         setTextFill(Paint.valueOf(settings.getCH()));
                     }
                 };
-                cell.setStyle("-fx-font:bold 14 \"Times New Roman\"");
+                cell.setStyle("-fx-font:bold 12 \"Times New Roman\"");
                 return cell;
             }
         });
@@ -408,6 +408,7 @@ public class MainController implements Initializable {
 
         orderTable.getSelectionModel().selectedItemProperty().addListener((ObservableValue<? extends OrderDetail> observable, OrderDetail oldValue, OrderDetail newValue) -> {
             if (orderTable.getSelectionModel().getSelectedIndex() >= 0) {
+                logger.info("Table index selected");
                 orderToProcess = orderTable.getSelectionModel().getSelectedItem();
                 showMenu();
             }
@@ -448,7 +449,8 @@ public class MainController implements Initializable {
         tableMenu.setOnHidden((WindowEvent event) -> {
             orderTable.getSelectionModel().clearSelection();
         });
-        orderTable.setContextMenu(tableMenu);
+        
+        orderTable.setContextMenu(tableMenu);        
     }
 
     /**
