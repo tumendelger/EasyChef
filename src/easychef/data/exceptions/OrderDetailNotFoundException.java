@@ -6,11 +6,17 @@
 package easychef.data.exceptions;
 
 /**
+ * Custom exception class when specified OrderDetail is not exists in the DB
  *
  * @author tumee
  */
 public class OrderDetailNotFoundException extends Exception {
 
+    /**
+     * Sets custom message as a exception message
+     *
+     * @param msg
+     */
     public OrderDetailNotFoundException(String msg) {
         super(msg);
     }

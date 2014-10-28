@@ -60,7 +60,10 @@ public class DeliveryStats {
         this.system_date = date;
     }
 
-    //Initializes daily statistics for a effective system date
+    /**
+     * Initializes daily statistics for a effective system date
+     *
+     */
     public void initDailyStatistics() {
         //TO DO
         //Check if values for current effective date is available in the system
@@ -74,6 +77,12 @@ public class DeliveryStats {
 
     }
 
+    /**
+     * Fetch database values for given statistics type i.e:low_wait orders,
+     * high_wait_orders, cancelled order with or without costs etc.,
+     *
+     * @param STAT_TYPE
+     */
     private void checkStat(STATISTIC_TYPE STAT_TYPE) {
         try {
             logger.info(String.format("Checking %s statistics values.", STAT_TYPE.getName()));
@@ -120,6 +129,10 @@ public class DeliveryStats {
         }
     }
 
+    /**
+     * Increases number of LowWait orders by 1
+     *
+     */
     public void increaseLowWait() {
         Platform.runLater(() -> {
             lowWaitOrders.set(lowWaitOrders.get() + 1);
@@ -128,6 +141,10 @@ public class DeliveryStats {
 
     }
 
+    /**
+     * Increases number of MediumWait orders by 1
+     *
+     */
     public void increaseMedWait() {
         Platform.runLater(() -> {
             medWaitOrders.set(medWaitOrders.get() + 1);
@@ -135,6 +152,10 @@ public class DeliveryStats {
         });
     }
 
+    /**
+     * Increases number of HighWait orders by 1
+     *
+     */
     public void increaseHighWait() {
         Platform.runLater(() -> {
             highWaitOrders.set(highWaitOrders.get() + 1);
@@ -142,6 +163,10 @@ public class DeliveryStats {
         });
     }
 
+    /**
+     * Increases number of cancelOrdersWithCost by 1
+     *
+     */
     public void increaseOrdersWithCost() {
         Platform.runLater(() -> {
             cOrdersWithCost.set(cOrdersWithCost.get() + 1);
@@ -149,6 +174,10 @@ public class DeliveryStats {
         });
     }
 
+    /**
+     * Increases number of cancelOrdersWithoutCost by 1
+     *
+     */
     public void increaseOrdersWithNoCost() {
         Platform.runLater(() -> {
             cOrdersNoCost.set(cOrdersNoCost.get() + 1);
@@ -156,6 +185,11 @@ public class DeliveryStats {
         });
     }
 
+    /**
+     * Updates statistics in the DB for given type with current value
+     *
+     * @param type
+     */
     private void update(STATISTIC_TYPE type) {
         try {
             PreparedStatement pStat = (PreparedStatement) DBConnector.getConnection().prepareStatement(updateStatistics);
@@ -184,46 +218,89 @@ public class DeliveryStats {
         }
     }
 
+    /**
+     *
+     * @return lowWaitOrders
+     */
     public IntegerProperty getLowWaitOrders() {
         return lowWaitOrders;
     }
 
+    /**
+     *
+     * @param lowWaitOrders sets lowWaitOrders
+     */
     public void setLowWaitOrders(int lowWaitOrders) {
         this.lowWaitOrders.set(lowWaitOrders);
     }
 
+    /**
+     *
+     * @return mediumWaitOrders
+     */
     public IntegerProperty getMedWaitOrders() {
         return medWaitOrders;
     }
 
+    /**
+     *
+     * @param medWaitOrders sets mediumWaitOrders
+     */
     public void setMedWaitOrders(int medWaitOrders) {
         this.medWaitOrders.set(medWaitOrders);
     }
 
+    /**
+     *
+     * @return highWaitOrders
+     */
     public IntegerProperty getHighWaitOrders() {
         return highWaitOrders;
     }
 
+    /**
+     *
+     * @param highWaitOrders highWaitOrders
+     */
     public void setHighWaitOrders(int highWaitOrders) {
         this.highWaitOrders.set(highWaitOrders);
     }
 
+    /**
+     *
+     * @return canceled ordersWithCost
+     */
     public IntegerProperty getcOrdersWithCost() {
         return cOrdersWithCost;
     }
 
+    /**
+     *
+     * @param cOrdersWithCost set canceled ordersWithCost
+     */
     public void setcOrdersWithCost(int cOrdersWithCost) {
         this.cOrdersWithCost.set(cOrdersWithCost);
     }
 
+    /**
+     *
+     * @return canceled ordersWithoutCost
+     */
     public IntegerProperty getcOrdersNoCost() {
         return cOrdersNoCost;
     }
 
+    /**
+     *
+     * @param cOrdersNoCost set canceled ordersWithoutCost
+     */
     public void setcOrdersNoCost(int cOrdersNoCost) {
         this.cOrdersNoCost.set(cOrdersNoCost);
     }
 
+    /**
+     * Enum class for order types
+     */
     public enum STATISTIC_TYPE {
 
         LOW_WAIT("LOW WAIT ORDERS", 1),

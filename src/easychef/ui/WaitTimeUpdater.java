@@ -7,6 +7,8 @@ package easychef.ui;
 
 import easychef.data.OrderDetail;
 import easychef.data.utils.DateTimeUtils;
+import easychef.net.ClientMessageHandler;
+import easychef.net.Message;
 import static java.lang.Thread.sleep;
 import java.text.ParseException;
 import java.util.logging.Level;
@@ -45,30 +47,36 @@ public class WaitTimeUpdater extends Thread {
                 Logger.getLogger(WaitTimeUpdater.class.getName()).log(Level.SEVERE, null, ex);
             }
 
-            if (orders.size() > 0) {
-                logger.log(Level.INFO, "Size of the table: {0}", orders.size());
-
-                for (OrderDetail od : orders) {
-                    try {
-                        od.setWaitTime(dtUtil.getTimeDifferenceInMinutes(od.getOrderTime()));
-                    } catch (ParseException ex) {
-                        logger.log(Level.SEVERE, null, ex);
-                    }
-                }
-
-                OrderDetail last = orders.get(orders.size() - 1);
-                orders.remove(last);
-                try {
-                    sleep(100);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(WaitTimeUpdater.class.getName()).log(Level.SEVERE, null, ex);
-                }
-
-                Platform.runLater(() -> {
-                    orders.add(last);
-                });
-
-            }
+//            if (orders.size() > 0) {
+//                logger.log(Level.INFO, "Size of the table: {0}", orders.size());
+//
+//                for (OrderDetail od : orders) {
+//                    try {
+//                        od.setWaitTime(dtUtil.getTimeDifferenceInMinutes(od.getOrderTime()));
+//                    } catch (ParseException ex) {
+//                        logger.log(Level.SEVERE, null, ex);
+//                    }
+//                }
+//
+//                OrderDetail last = orders.get(orders.size() - 1);
+//                orders.remove(last);
+//                try {
+//                    sleep(100);
+//                } catch (InterruptedException ex) {
+//                    Logger.getLogger(WaitTimeUpdater.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//
+//                Platform.runLater(() -> {
+//                    orders.add(last);
+//                });
+//
+//            }
+            
+            //Try removing all orders and fetch from DB again
+            orders.clear();
+            ClientMessageHandler clientMessageHandler = ClientMessageHandler.getInstance();
+            Message all = new Message(easychef.net.Message.msgType.ALL, 0);
+            clientMessageHandler.addClientMsg(all);
         }
 
     }

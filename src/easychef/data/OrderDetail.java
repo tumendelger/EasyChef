@@ -213,11 +213,11 @@ public class OrderDetail {
         DateTimeUtils dtu = new DateTimeUtils();
         try {
             this.waitTime = dtu.getTimeDifferenceInMinutes(orderTime);
+//            logger.info(String.format("Wait time set to: %s", this.waitTime));
         } catch (ParseException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);
         }
-        this.waitTime
-                = this.uid = uid;
+        this.uid = uid;
         this.isDrink = isDrink;
     }
 
@@ -592,7 +592,7 @@ public class OrderDetail {
             sb.append("}");
         }
         sb.append("[IsDelivered: ").append(isDelivered()).append("] ");
-        sb.append("[WaiterCancelled: ").append(isWaiterCancelled()).append("]");
+//        sb.append("[WaiterCancelled: ").append(isWaiterCancelled()).append("]");
         sb.append("[ChefCancelled: ").append(isChefCancelled()).append("] ");
         sb.append("[OrderTime: ").append(getOrderTime()).append("] ");
         sb.append("[WaitMinutes: ").append(getWaitTime()).append("] ");

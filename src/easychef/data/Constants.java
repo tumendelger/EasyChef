@@ -12,6 +12,9 @@ package easychef.data;
  */
 public final class Constants {
 
+    /**
+     * Restricts new creation
+     */
     private Constants() {
         // Restrict new creation
     }
