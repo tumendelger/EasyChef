@@ -5,6 +5,8 @@ EasyChef Kitchen application for EasySystems
 
 Project structure:
     1. Package structure
+
+
         - easychef
             -- data                                         //Classes related with DB
                 -- exceptions (Package)                     //Exception classes for easychef.data package classes
