@@ -7,6 +7,7 @@ package easychef.data.utils;
 
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
+import easychef.data.Constants;
 import easychef.data.DBConnector;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -114,7 +115,12 @@ public class SystemSettings {
         logger.info("Getting Server Port.");
         value = getValue("PORT");
         if (value != null) {
-            setServerPort(Integer.parseInt(value));
+            try {
+                setServerPort(Integer.parseInt(value));
+            } catch (NumberFormatException nfe) {
+                logger.warning("Not valid number. Setting port to default value.");
+                setServerPort(Constants.SERVER_PORT);
+            }
         }
 
     }
@@ -213,8 +219,9 @@ public class SystemSettings {
     }
 
     public void setServerPort(int port) {
+        logger.log(Level.INFO, "Setting Server port to: {0}", port);
         this.serverPort = port;
-        logger.log(Level.INFO, "Server port set to: {0}", port);
+
     }
 
     public int savePrinter() {

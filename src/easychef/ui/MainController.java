@@ -543,19 +543,14 @@ public class MainController implements Initializable {
 //
 //            }
 //        });
-        networkStatusLabel.textProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (newValue.equalsIgnoreCase(Constants.SERVER_UP)) {
-                    networkStatusLabel.setStyle("-fx-background-color: #35AA47;");
-                } else {
-                    networkStatusLabel.setStyle("-fx-background-color: #FF3F3F;");
-                }
-            }
-        });
-
-        networkStatusLabel.textProperty().bind(listener.getServerStatus());
+        //networkStatusLabel.textProperty().bind(listener.getServerStatus());
+        if (listener.isUp()) {
+            networkStatusLabel.setStyle("-fx-background-color: #35AA47;");
+            networkStatusLabel.setText(String.format("%s:%s", listener.getServerAddress(), listener.getServerPort()));
+        } else {
+            networkStatusLabel.setStyle("-fx-background-color: #FF3F3F;");
+            networkStatusLabel.setText(Constants.SERVER_DOWN);
+        }
 //        printerStatusLabel.textProperty().bind();
     }
 

@@ -6,12 +6,10 @@ package easychef.net;
 
 import easychef.data.Constants;
 import java.io.IOException;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -29,7 +27,8 @@ public class TCPListener extends Thread {
     private static Socket accept;
     private String serverAddress;
     private int serverPort;
-    private StringProperty serverStatus = new SimpleStringProperty();
+    private StringProperty serverStatusText = new SimpleStringProperty();
+    private boolean serverStatus;
 
     public TCPListener(String threadName) {
         super.setName(threadName);
@@ -46,7 +45,7 @@ public class TCPListener extends Thread {
             //Create server socket at given port
             serverSocket = new ServerSocket(this.serverPort);
             logger.info(String.format("Server socket created successfully @%s port.", serverSocket.getLocalPort()));
-            setServerStatus(Constants.SERVER_UP);
+            setServerStatus(true);
             while (!shutdown) {
 
                 //Wait for new connection
@@ -59,7 +58,7 @@ public class TCPListener extends Thread {
             }
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
-            setServerStatus(Constants.SERVER_DOWN);
+            setServerStatus(false);
         }
     }
 
@@ -99,11 +98,19 @@ public class TCPListener extends Thread {
         this.serverPort = port;
     }
 
-    public void setServerStatus(String statusMessage) {
-        this.serverStatus.set(statusMessage);
+    public void setServerStatusText(String statusMessage) {
+        this.serverStatusText.set(statusMessage);
     }
 
-    public StringProperty getServerStatus() {
+    public StringProperty getServerStatusText() {
+        return this.serverStatusText;
+    }
+
+    public void setServerStatus(boolean status) {
+        this.serverStatus = status;
+    }
+
+    public boolean isUp() {
         return this.serverStatus;
     }
 }
