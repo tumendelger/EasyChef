@@ -42,4 +42,19 @@ public final class Constants {
     public static final int CLIENT_PORT = 5000;
     public static final int SERVER_PORT = 7200;
 
+    //Audio files
+    public static final String NEW_ORDER = "resources\\sounds\\new-order.wav";
+    public static final String CANCEL_ORDER = "resources\\sounds\\cancel-order.wav";
+    public static final String PRINT_BILL = "resources\\sounds\\print-done.wav";
+    public static final String DELIVER_ORDER = "resources\\sounds\\deliver-order.wav";
+
+    //Server status
+    public static final String SERVER_UP = "Ажиллаж байна";
+    public static final String SERVER_DOWN = "Унтарсан байна";
+    public static final String START_SERVER = "Сервер асаах";
+    
+    //Printers
+    public static final String PRINTER_OK = "Холбогдсон байна";
+    public static final String PRINTER_NOT_FOUND = "Олдсонгүй";
+    
 }

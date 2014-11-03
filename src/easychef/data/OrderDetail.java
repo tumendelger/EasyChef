@@ -370,6 +370,10 @@ public class OrderDetail {
             logger.info(String.format("Executing query: %s", pStat.toString()));
 
             pStat.execute();
+            
+            //Delivered order
+            //Subtract materials from the order
+            //TODO
 
         } catch (SQLException ex) {
             Logger.getLogger(OrderDetail.class.getName()).log(Level.SEVERE, null, ex);

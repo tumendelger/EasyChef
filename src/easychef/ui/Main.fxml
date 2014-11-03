@@ -41,7 +41,7 @@
                                 <AnchorPane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS">
                                   <children>
                                     <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Бага хүлээлттэй" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
-                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="2.0">
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="2.0">
                                       <image>
                                         <Image backgroundLoading="false" url="@../resources/green-smile.png" />
                                       </image>
@@ -56,7 +56,7 @@
                                 <AnchorPane id="AnchorPane" minHeight="34.0" minWidth="205.0" prefHeight="34.0" prefWidth="205.0" HBox.hgrow="ALWAYS">
                                   <children>
                                     <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Дундаж хүлээлттэй" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
-                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="230.0" AnchorPane.topAnchor="2.0">
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="2.0">
                                       <image>
                                         <Image url="@../resources/yellow-smile.png" />
                                       </image>
@@ -71,7 +71,7 @@
                                 <AnchorPane id="AnchorPane" minHeight="-1.0" minWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" HBox.hgrow="ALWAYS">
                                   <children>
                                     <Label maxHeight="30.0" maxWidth="180.0" minHeight="30.0" minWidth="180.0" prefHeight="30.0" prefWidth="180.0" styleClass="right-pane-labels" text="Их хүлээлттэй" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="4.0" />
-                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="260.0" AnchorPane.topAnchor="2.0">
+                                    <ImageView fitHeight="35.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true" AnchorPane.rightAnchor="90.0" AnchorPane.topAnchor="2.0">
                                       <image>
                                         <Image url="@../resources/red-smile.png" />
                                       </image>
@@ -123,8 +123,9 @@
                               <children>
                                 <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
                                   <children>
-                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Систем огноо:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
-                                    <Label id="serverStatusLabel" fx:id="systemDate" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="" styleClass="system-stat-label" text="2014-05-01" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                    <Label maxHeight="30.0" maxWidth="130.0" minHeight="30.0" minWidth="130.0" prefHeight="30.0" prefWidth="130.0" styleClass="right-pane-labels" text="Систем огноо:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label id="serverStatusLabel" fx:id="systemDate" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="90.0" style="" styleClass="system-stat-normal" text="2014-05-01" AnchorPane.rightAnchor="75.0" AnchorPane.topAnchor="10.0" />
+                                                      <Label fx:id="timeLabel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="75.0" styleClass="system-stat-normal" text="15:44:44" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
                                   </children>
                                 </AnchorPane>
                               </children>
@@ -133,8 +134,8 @@
                               <children>
                                 <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
                                   <children>
-                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Сүлжээ:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
-                                    <Label id="serverStatusLabel" fx:id="networkStatusLabel" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="" styleClass="system-stat-error" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Сервер:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label id="serverStatusLabel" fx:id="networkStatusLabel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="165.0" style="" styleClass="system-stat-error" text="Ажиллаж байна" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
                                   </children>
                                 </AnchorPane>
                               </children>
@@ -143,25 +144,29 @@
                               <children>
                                 <AnchorPane prefHeight="-1.0" prefWidth="-1.0" styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
                                   <children>
-                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Принтер:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
-                                    <Label id="serverStatusLabel" fx:id="printerStatusLabel" alignment="CENTER" maxHeight="25.0" maxWidth="150.0" minHeight="25.0" minWidth="150.0" prefHeight="25.0" prefWidth="150.0" style="" styleClass="system-stat-normal" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
+                                    <Label maxHeight="30.0" maxWidth="150.0" minHeight="30.0" minWidth="150.0" prefHeight="30.0" prefWidth="150.0" styleClass="right-pane-labels" text="Принтер төлөв:" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Label id="serverStatusLabel" fx:id="printerStatusLabel" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="165.0" style="" styleClass="system-stat-normal" text="Холбогдсон" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0" />
                                   </children>
                                 </AnchorPane>
                               </children>
                             </HBox>
-                            <VBox prefHeight="90.0" prefWidth="-1.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="500.0">
+                                          <HBox prefHeight="40.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="410.0">
+                                             <children>
+                                                <AnchorPane styleClass="leftpane-hbox" HBox.hgrow="ALWAYS">
+                                                   <children>
+                                                      <Label styleClass="right-pane-labels" text="Принтер:" AnchorPane.topAnchor="5.0" />
+                                                      <ComboBox fx:id="printerList" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="160.0" AnchorPane.leftAnchor="94.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="5.0" />
+                                                      <ComboBox fx:id="printerWidthList" prefWidth="60.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                                   </children>
+                                                </AnchorPane>
+                                             </children>
+                                          </HBox>
+                            <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="320.0" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="30.0">
                               <children>
                                 <AnchorPane id="AnchorPane" prefHeight="40.0">
                                   <children>
-                                    <Button disable="false" mnemonicParsing="false" styleClass="btnStartDay" text="Өдөр эхлүүлэх" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="5.0" />
-                                  </children>
-                                  <VBox.margin>
-                                    <Insets top="5.0" />
-                                  </VBox.margin>
-                                </AnchorPane>
-                                <AnchorPane id="AnchorPane" prefHeight="40.0">
-                                  <children>
-                                    <Button mnemonicParsing="false" styleClass="btnEndDay" text="Өдөр өндөрлөх" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="5.0" />
+                                    <Button maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="150.0" styleClass="btnEndDay" text="Өдөр өндөрлөх" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0" />
+                                    <Button disable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefWidth="150.0" styleClass="btnStartDay" text="Өдөр эхлүүлэх" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="5.0" />
                                   </children>
                                   <VBox.margin>
                                     <Insets />

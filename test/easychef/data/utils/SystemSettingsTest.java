@@ -26,7 +26,9 @@ public class SystemSettingsTest {
         String expectedMWC = "#FFB848";
         String expectedHWC = "#FF3F3F";
         String expectedCH = "#4D90FE";
-        String expectedPrinter = "printername";
+        String expectedPrinter = "Send To OneNote 2010";
+        String expectedAddress = "192.168.1.120";
+        int expectedPort = 7800;
         settings.loadSettings();
 
         assertEquals(expectedDate, settings.getSystemDate().get());
@@ -35,6 +37,16 @@ public class SystemSettingsTest {
         assertEquals(expectedHWC, settings.getHWC());
         assertEquals(expectedCH, settings.getCH());
         assertEquals(expectedPrinter, settings.getPrinterName().get());
+        assertEquals(expectedAddress, settings.getServerAddress().get());
+        assertEquals(expectedPort, settings.getServerPort());
+    }
+
+    @Test
+    public void testSetKitchenIpPort() {
+        SystemSettings settings = new SystemSettings();
+        int expected = 2;
+        int result = settings.setKitchenIpPort("192.168.1.120", 7800);
+        assertEquals(expected, result);
     }
 
 }

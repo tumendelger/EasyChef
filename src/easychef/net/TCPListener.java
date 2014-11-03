@@ -6,10 +6,14 @@ package easychef.net;
 
 import easychef.data.Constants;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  * Listen on server IP and PORT for incoming messages from waiter e.g order,
@@ -23,6 +27,9 @@ public class TCPListener extends Thread {
     public static boolean shutdown;
     private static ServerSocket serverSocket;
     private static Socket accept;
+    private String serverAddress;
+    private int serverPort;
+    private StringProperty serverStatus = new SimpleStringProperty();
 
     public TCPListener(String threadName) {
         super.setName(threadName);
@@ -37,9 +44,9 @@ public class TCPListener extends Thread {
             Runtime.getRuntime().addShutdownHook(new RunWhenShutdown());
 
             //Create server socket at given port
-            serverSocket = new ServerSocket(Constants.SERVER_PORT);
+            serverSocket = new ServerSocket(this.serverPort);
             logger.info(String.format("Server socket created successfully @%s port.", serverSocket.getLocalPort()));
-
+            setServerStatus(Constants.SERVER_UP);
             while (!shutdown) {
 
                 //Wait for new connection
@@ -52,6 +59,7 @@ public class TCPListener extends Thread {
             }
         } catch (IOException ex) {
             logger.log(Level.SEVERE, null, ex);
+            setServerStatus(Constants.SERVER_DOWN);
         }
     }
 
@@ -73,5 +81,29 @@ public class TCPListener extends Thread {
                 Logger.getLogger(TCPListener.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    public String getServerAddress() {
+        return this.serverAddress;
+    }
+
+    public void setServerAddress(String address) {
+        this.serverAddress = address;
+    }
+
+    public int getServerPort() {
+        return this.serverPort;
+    }
+
+    public void setServerPort(int port) {
+        this.serverPort = port;
+    }
+
+    public void setServerStatus(String statusMessage) {
+        this.serverStatus.set(statusMessage);
+    }
+
+    public StringProperty getServerStatus() {
+        return this.serverStatus;
     }
 }

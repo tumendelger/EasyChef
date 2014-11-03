@@ -20,6 +20,7 @@ import easychef.net.TCPListener;
 import java.awt.MouseInfo;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -28,10 +29,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
-import javafx.beans.binding.StringBinding;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.Property;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -41,7 +38,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.print.Printer;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
@@ -89,6 +88,8 @@ public class MainController implements Initializable {
     @FXML
     private Label systemDate;
     @FXML
+    private Label timeLabel;
+    @FXML
     private Label networkStatusLabel;
     @FXML
     private Label printerStatusLabel;
@@ -102,6 +103,10 @@ public class MainController implements Initializable {
     private Button btnMaximize;
     @FXML
     private Button btnMinimize;
+    @FXML
+    private ComboBox printerList;
+    @FXML
+    private ComboBox printerWidthList;
 
     /**
      * Internal variable declarations
@@ -122,7 +127,9 @@ public class MainController implements Initializable {
     private MenuItem doNothing;
 
     public static final ObservableList<OrderDetail> orderData = FXCollections.observableArrayList();
-    private final TCPListener listener = new TCPListener("ServerThread");
+    public static final ObservableList<Printer> printers = FXCollections.observableArrayList();
+    public static final ObservableList<Integer> printerWidth = FXCollections.observableArrayList();
+    private TCPListener listener;
     private WaitTimeUpdater wtUpdater;
     private ClientMessageHandler mHandler;
     private OrderHandler oHandler;
@@ -130,6 +137,7 @@ public class MainController implements Initializable {
     private SystemSettings settings;
 
     public static DeliveryStats deliveryStats;
+    private boolean printerFound;
 
     /**
      * Initializes the controller class.
@@ -152,7 +160,10 @@ public class MainController implements Initializable {
         //Set TableView items as orderData
         orderTable.setItems(orderData);
 
-        //Initialize TCPListener
+        //Initialize TCPListener   
+        listener = new TCPListener("ServerThread");
+        listener.setServerAddress(settings.getServerAddress().get());
+        listener.setServerPort(settings.getServerPort());
         listener.start();
 
         //initialize cMHandler
@@ -176,6 +187,18 @@ public class MainController implements Initializable {
         wtUpdater = new WaitTimeUpdater();
         wtUpdater.setOrders(orderData);
         wtUpdater.start();
+
+        initPrinter();
+
+        //Finally start timer
+        Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                timeLabel.setText(new SimpleDateFormat("HH:mm:ss").format(System.currentTimeMillis()));
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        timer.play();
 
     }
 
@@ -449,8 +472,8 @@ public class MainController implements Initializable {
         tableMenu.setOnHidden((WindowEvent event) -> {
             orderTable.getSelectionModel().clearSelection();
         });
-        
-        orderTable.setContextMenu(tableMenu);        
+
+        orderTable.setContextMenu(tableMenu);
     }
 
     /**
@@ -471,8 +494,139 @@ public class MainController implements Initializable {
                 .bind(Bindings.convert(deliveryStats.getcOrdersWithCost()));
 
         //Bind network and printer status labels
-//        networkStatusLabel.textProperty().bind();
-//        printerStatusLable.textProperty().bind();
+//        networkStatusLabel.setOnMouseEntered(new EventHandler<MouseEvent>() {
+//
+//            @Override
+//            public void handle(MouseEvent event) {
+//                if (networkStatusLabel.getText().equalsIgnoreCase(Constants.SERVER_DOWN)) {
+//                    //If server is down try restart again
+//                    listener.setServerStatus(Constants.START_SERVER);
+//                    logger.log(Level.SEVERE, "Server status: {0}", listener.getState());
+//                } else {
+//                    logger.log(Level.SEVERE, "Server status: {0}", listener.getState());
+//                }
+//            }
+//        });
+//
+//        networkStatusLabel.setOnMouseExited(new EventHandler<MouseEvent>() {
+//
+//            @Override
+//            public void handle(MouseEvent event) {
+//                //Check listener status
+//                if (listener.getState().equals(Thread.State.RUNNABLE)) {
+//                    listener.setServerStatus(Constants.SERVER_UP);
+//                } else {
+//                    listener.setServerStatus(Constants.SERVER_DOWN);
+//                }
+//            }
+//        });
+//        networkStatusLabel.setOnMouseClicked(new EventHandler<MouseEvent>() {
+//
+//            @Override
+//            public void handle(MouseEvent event) {
+//                if (networkStatusLabel.getText().equalsIgnoreCase(Constants.START_SERVER)) {
+//                    //Server is down let's start again
+//                    try {
+//                        logger.log(Level.INFO, "Current server status - {0}", listener.getState());
+//
+//                        logger.log(Level.INFO, "If server is alive - {0}", listener.isAlive());
+//
+//                        logger.log(Level.INFO, "Interrupting server instance . . . ");
+//                        listener.interrupt();
+//
+//                        logger.log(Level.INFO, "Trying to start server again . . . ");
+//                        listener.start();
+//                    } catch (IllegalThreadStateException itse) {
+//                        logger.log(Level.INFO, "Could NOT start server again - {0}", listener.getState());
+//                    }
+//                }
+//
+//            }
+//        });
+        networkStatusLabel.textProperty().addListener(new ChangeListener<String>() {
+
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                if (newValue.equalsIgnoreCase(Constants.SERVER_UP)) {
+                    networkStatusLabel.setStyle("-fx-background-color: #35AA47;");
+                } else {
+                    networkStatusLabel.setStyle("-fx-background-color: #FF3F3F;");
+                }
+            }
+        });
+
+        networkStatusLabel.textProperty().bind(listener.getServerStatus());
+//        printerStatusLabel.textProperty().bind();
+    }
+
+    private void initPrinter() {
+        //We should have printer name before this method calls
+        //Set printer list data by getting all printers 
+        //avialable in the system
+        printerList.valueProperty().addListener(new ChangeListener<Printer>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Printer> observable, Printer oldValue, Printer newValue) {
+                //When we change printer from combobox
+                //We'll update kitchen printer in the DB
+                if (!newValue.getName().equalsIgnoreCase(settings.getPrinterName().get())) {
+                    //Lets save new printer to DB
+                    logger.info("Save new printer to DB.");
+                    settings.setPrinterName(newValue.getName());
+                    settings.savePrinter();
+                    printerFound = true;
+                }
+                //else do nothing
+                changePrinterLabelStatus();
+            }
+        });
+        printerList.setItems(printers);
+        printers.addAll(Printer.getAllPrinters());
+
+        for (Printer p : printers) {
+            if (settings.getPrinterName().get().equals(p.getName())) {
+                //If we found printer in the list
+                //select printer
+                printerList.getSelectionModel().select(p);
+                printerFound = true;
+            }
+        }
+
+        printerWidthList.valueProperty().addListener(new ChangeListener<Integer>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Integer> observable, Integer oldValue, Integer newValue) {
+                if (!newValue.equals(settings.getPrinterWidth().getValue())) {
+                    //Save printer width         
+                    logger.info("Save new printer width to DB.");
+                    settings.setPrinterWidth(newValue);
+                    settings.updatePrinterWidth();
+                    printerFound = true;
+                }
+            }
+        });
+
+        //Initialize printer width list
+        printerWidth.add(80);
+        printerWidth.add(60);
+
+        printerWidthList.setItems(printerWidth);
+        printerWidthList.getSelectionModel().select(settings.getPrinterWidth().getValue());
+
+        changePrinterLabelStatus();
+    }
+
+    private void changePrinterLabelStatus() {
+        if (printerFound) {
+            //Now we found printer
+            //Set label as PrinterFound
+            printerStatusLabel.setText(Constants.PRINTER_OK);
+            printerStatusLabel.setStyle("-fx-background-color: #35AA47;");
+        } else {
+            //No printer found
+            printerStatusLabel.setText(Constants.PRINTER_NOT_FOUND);
+            printerStatusLabel.setStyle("-fx-background-color: #FF3F3F;");
+        }
     }
 
     private void showMenu() {

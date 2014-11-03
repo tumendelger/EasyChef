@@ -7,6 +7,8 @@ package easychef.net;
 
 import easychef.data.OrderDetail;
 import easychef.data.PrintOrder;
+import easychef.data.utils.SoundNotification;
+import easychef.data.Constants;
 import static easychef.net.Message.msgType.CANCEL;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -31,6 +33,7 @@ public class ClientMessageHandler extends Thread {
     private final Object msgLock = new Object();
     private final Object newClientMsgLock = new Object();
     private final Object orderLock = new Object();
+    private final SoundNotification notify = new SoundNotification();
 
     public ClientMessageHandler() {
         super("cMessageHandlerThread");
@@ -99,6 +102,7 @@ public class ClientMessageHandler extends Thread {
 
                             //Adding retrieved data to TableViews items
                             getAllOrderDetails(orders);
+                            notify.playSound(Constants.NEW_ORDER);
                             break;
                         case ORDER:
                             //New Order should be received
@@ -107,12 +111,14 @@ public class ClientMessageHandler extends Thread {
 
                             //Adding retrieved data to TableViews items
                             getNewOrderDetails(cMsg.getId(), orders);
+                            notify.playSound(Constants.NEW_ORDER);
                             break;
                         case CANCEL:
                             //OrderDetail has been cancelled 
                             //It has to be notified to the kitchen Chef
                             logger.info("Message to handle is msgType[CANCEL]");
                             notifyCancel(cMsg.getId(), orders);
+                            notify.playSound(Constants.CANCEL_ORDER);
                             break;
                         case UPDATE:
                             //Order has just been updated with new order
@@ -122,6 +128,7 @@ public class ClientMessageHandler extends Thread {
                             //Adding retrieved data to ObservableList<OrderDetail> 
                             //which is source items                            
                             getNewOrderDetail(cMsg.getId(), orders);
+                            notify.playSound(Constants.NEW_ORDER);
                             break;
                         case UPDATE_DRINK:
                             //Order updated with drink from kitchen
@@ -129,18 +136,22 @@ public class ClientMessageHandler extends Thread {
 
                             //Add retrived data to observable list
                             getNewDrinkOrderDetail(cMsg.getId(), orders);
+                            notify.playSound(Constants.NEW_ORDER);
                             break;
                         case DELIVER:
                             //Order has been delivered from Kitchen to 
+
                             //Tek has to notify Waiter
                             logger.info("Message to handle is msgType[DELIVER]");
                             notifyWaiter(cMsg.getId());
+                            notify.playSound(Constants.DELIVER_ORDER);
                             break;
                         case PRINT:
                             //Customer requested Order Bill 
                             //Bill needs to be printed from Kitchen printer
                             logger.info("Message to handle is msgType[PRINT]");
                             printOrderBill(cMsg.getId());
+                            notify.playSound(Constants.PRINT_BILL);
                             break;
                         default:
                             throw new AssertionError(cMsg.getMtype());
@@ -221,8 +232,6 @@ public class ClientMessageHandler extends Thread {
 
         //TO DO 
         //Print service code here
-        
-        
     }
 
     /**
@@ -267,5 +276,13 @@ public class ClientMessageHandler extends Thread {
         od.setId(id);
         od.getDrinkDetails();
         orders.add(od);
+    }
+
+    private int deliverOrderDetail(long id) {
+        int rows = 0;
+        
+        //TO DO
+        
+        return rows;
     }
 }

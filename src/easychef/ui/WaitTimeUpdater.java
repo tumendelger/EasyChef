@@ -10,10 +10,8 @@ import easychef.data.utils.DateTimeUtils;
 import easychef.net.ClientMessageHandler;
 import easychef.net.Message;
 import static java.lang.Thread.sleep;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.collections.ObservableList;
 
 /**

@@ -6,17 +6,15 @@
 package easychef.data.utils;
 
 import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Statement;
 import easychef.data.DBConnector;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -28,9 +26,6 @@ import javafx.beans.property.StringProperty;
 public class SystemSettings {
 
     private final static Logger logger = Logger.getLogger(SystemSettings.class.getName());
-    private final String propFileName = "configs.properties";
-    private File propFile;
-    private Properties props;
 
     //Color default values
     private String LWC = "#35AA74";
@@ -42,11 +37,13 @@ public class SystemSettings {
     private StringProperty systemDate = new SimpleStringProperty("N/A");
 
     //Network status
-    private StringProperty networkString;
+    private StringProperty serverAddress = new SimpleStringProperty("");
     private BooleanProperty networkStatus;
+    private int serverPort = 7800;
 
     //Printer name
     private StringProperty printerName = new SimpleStringProperty("N/A");
+    private IntegerProperty printerWidth = new SimpleIntegerProperty();
     private BooleanProperty printerSet;
 
     //SQL Queries
@@ -102,6 +99,24 @@ public class SystemSettings {
             setPrinterName(value);
         }
 
+        logger.info("Getting Printer name.");
+        value = getValue("PRINTER_WIDTH");
+        if (value != null) {
+            setPrinterWidth(Integer.parseInt(value));
+        }
+
+        logger.info("Getting Server Address.");
+        value = getValue("KITCHEN_IP");
+        if (value != null) {
+            setServerAddress(value);
+        }
+
+        logger.info("Getting Server Port.");
+        value = getValue("PORT");
+        if (value != null) {
+            setServerPort(Integer.parseInt(value));
+        }
+
     }
 
     public String getValue(String name) throws SQLException {
@@ -112,6 +127,7 @@ public class SystemSettings {
         //Execute statement        
         logger.log(Level.INFO, "Getting value for {0} from DB.", name);
         rs = pStat.executeQuery();
+        logger.log(Level.INFO, "Executing : {0}", pStat.toString());
 
         if (rs.next()) {
             return rs.getString(1);
@@ -165,18 +181,6 @@ public class SystemSettings {
         logger.log(Level.INFO, "System date set to: {0}", systemDate);
     }
 
-    private void saveProps(FileOutputStream fos) throws IOException {
-        props = new Properties();
-        props.setProperty("LWC", LWC);
-        props.setProperty("MWC", MWC);
-        props.setProperty("HWC", HWC);
-        props.setProperty("CH", CH);
-
-        props.store(fos, null);
-        logger.info("Properties saved successfully.");
-
-    }
-
     public StringProperty getPrinterName() {
         return printerName;
     }
@@ -186,12 +190,83 @@ public class SystemSettings {
         logger.log(Level.INFO, "Printer name set to: {0}", printerName);
     }
 
+    public void setPrinterWidth(int width) {
+        this.printerWidth.set(width);
+        logger.log(Level.INFO, "Printer width set to: {0}", printerWidth);
+    }
+
+    public IntegerProperty getPrinterWidth() {
+        return this.printerWidth;
+    }
+
+    public StringProperty getServerAddress() {
+        return this.serverAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.serverAddress.set(serverAddress);
+        logger.log(Level.INFO, "Server IP set to: {0}", serverAddress);
+    }
+
+    public int getServerPort() {
+        return this.serverPort;
+    }
+
+    public void setServerPort(int port) {
+        this.serverPort = port;
+        logger.log(Level.INFO, "Server port set to: {0}", port);
+    }
+
+    public int savePrinter() {
+        int res = 0;
+        try {
+            pStat = (PreparedStatement) DBConnector.getConnection().prepareStatement(updateValue);
+            pStat.setString(1, this.printerName.get());
+            pStat.setString(2, "PRINTER");
+            res = pStat.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SystemSettings.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
+    }
+
     public boolean isPrinterSet() {
         return printerSet.get();
     }
 
     public void setPrinterSet(boolean printerSet) {
         this.printerSet.set(printerSet);
+    }
+
+    public int setKitchenIpPort(String IP, int port) {
+        int affected = 0;
+        String query;
+        try {
+            Statement Stat = (Statement) DBConnector.getConnection().createStatement();
+            query = String.format("UPDATE system_settings SET parameter='%s' WHERE name='KITCHEN_IP'", IP);
+            logger.info(String.format("Executing : %s", query));
+            affected += Stat.executeUpdate(query);
+            query = String.format("UPDATE system_settings SET parameter='%s' WHERE name='PORT'", String.valueOf(port));
+            logger.info(String.format("Executing : %s", query));
+            affected += Stat.executeUpdate(query);
+        } catch (SQLException ex) {
+            Logger.getLogger(SystemSettings.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return affected;
+    }
+
+    public int updatePrinterWidth() {
+        int res = 0;
+        try {
+            pStat = (PreparedStatement) DBConnector.getConnection().prepareStatement(updateValue);
+            pStat.setString(1, String.valueOf(this.printerWidth.get()));
+            pStat.setString(2, "PRINTER_WIDTH");
+            res = pStat.executeUpdate();
+        } catch (SQLException ex) {
+            Logger.getLogger(SystemSettings.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return res;
     }
 
 }

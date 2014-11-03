@@ -89,6 +89,12 @@ public class LoginController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        rememberMe.setFocusTraversable(true);
+        username.setFocusTraversable(true);
+        password.setFocusTraversable(true);
+        buttonLogin.setFocusTraversable(true);
+        buttonCancel.setFocusTraversable(true);
+
         //Load saved user instance
         File userFile = new File("user");
         if (userFile.exists()) {
@@ -172,11 +178,13 @@ public class LoginController implements Initializable {
     private boolean validateEmptyFields() {
         if (username.getText().isEmpty()) {
             showLabel(userFieldEmpty);
+            username.requestFocus();
             return false;
         } else {
             hideLabel(userFieldEmpty);
             if (password.getText().isEmpty()) {
                 showLabel(pwdFieldEmpty);
+                password.requestFocus();
                 return false;
             } else {
                 hideLabel(pwdFieldEmpty);
