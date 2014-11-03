@@ -5,6 +5,8 @@
  */
 package easychef.data;
 
+import java.awt.print.PrinterException;
+import java.sql.SQLException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +25,7 @@ public class PrintOrderTest {
 
     @Before
     public void setUp() {
-        testOrder = new PrintOrder(1234567891);
+        testOrder = new PrintOrder(1234567891, 80);
     }
 
     @After
@@ -39,4 +41,15 @@ public class PrintOrderTest {
         System.out.println(testOrder.toString());
     }
 
+    /**
+     *
+     * @throws SQLException
+     * @throws java.awt.print.PrinterException
+     */
+    @Test
+    public void testPrint() throws SQLException, PrinterException {
+        testOrder.getBillDetails();
+        testOrder.prepareBill();
+        testOrder.print("Foxit Phantom Printer");
+    }
 }

@@ -224,7 +224,7 @@ public class ClientMessageHandler extends Thread {
     private void printOrderBill(long id) {
         logger.info(String.format("Order bill requested [OrderID: %s]. Start printing bill.", id));
 
-        PrintOrder orderToPrint = new PrintOrder(id);
+        PrintOrder orderToPrint = new PrintOrder(id, 80);
         orderToPrint.getBillDetails();
 
         logger.info(String.format("Print request received for Order:%s", id));
