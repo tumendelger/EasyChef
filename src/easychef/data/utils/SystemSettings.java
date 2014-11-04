@@ -43,8 +43,8 @@ public class SystemSettings {
     private int serverPort = 7800;
 
     //Printer name
-    private StringProperty printerName = new SimpleStringProperty("N/A");
-    private IntegerProperty printerWidth = new SimpleIntegerProperty();
+    public StringProperty printerName = new SimpleStringProperty("N/A");
+    public IntegerProperty printerWidth = new SimpleIntegerProperty();
     private BooleanProperty printerSet;
 
     //SQL Queries
@@ -188,7 +188,7 @@ public class SystemSettings {
     }
 
     public StringProperty getPrinterName() {
-        return printerName;
+        return this.printerName;
     }
 
     public void setPrinterName(String printerName) {

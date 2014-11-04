@@ -15,6 +15,9 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executor;
+import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.DocFlavor;
@@ -345,7 +348,9 @@ public class PrintOrder {
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(flavor, null);
         for (PrintService printer : printServices) {
             if (printer.getName().equalsIgnoreCase(printerName)) {
-                textToPrint.print(null, null, false, printer, attr_set, true);
+                FutureTask<Boolean> printTask = new FutureTask<>(() -> textToPrint.print(null, null, false, printer, attr_set, true));
+                Executor executor = null;
+                executor.execute(printTask);
                 break;
             }
         }

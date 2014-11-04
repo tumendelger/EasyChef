@@ -583,6 +583,7 @@ public class MainController implements Initializable {
                 //If we found printer in the list
                 //select printer
                 printerList.getSelectionModel().select(p);
+                mHandler.setPrinterName(p.getName());
                 printerFound = true;
             }
         }
@@ -596,6 +597,7 @@ public class MainController implements Initializable {
                     logger.info("Save new printer width to DB.");
                     settings.setPrinterWidth(newValue);
                     settings.updatePrinterWidth();
+                    mHandler.setPrinterWidth(settings.getPrinterWidth().get());
                     printerFound = true;
                 }
             }

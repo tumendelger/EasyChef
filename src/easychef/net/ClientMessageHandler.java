@@ -10,6 +10,7 @@ import easychef.data.PrintOrder;
 import easychef.data.utils.SoundNotification;
 import easychef.data.Constants;
 import static easychef.net.Message.msgType.CANCEL;
+import java.awt.print.PrinterException;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -34,6 +35,9 @@ public class ClientMessageHandler extends Thread {
     private final Object newClientMsgLock = new Object();
     private final Object orderLock = new Object();
     private final SoundNotification notify = new SoundNotification();
+
+    private String printerName;
+    private int printerWidth;
 
     public ClientMessageHandler() {
         super("cMessageHandlerThread");
@@ -106,7 +110,7 @@ public class ClientMessageHandler extends Thread {
                             break;
                         case ORDER:
                             //New Order should be received
-                            //Get order details and add to orderTable
+                            //Get order details and add tprinterNameo orderTable
                             logger.info("Message to handle is msgType[ORDER]");
 
                             //Adding retrieved data to TableViews items
@@ -150,7 +154,13 @@ public class ClientMessageHandler extends Thread {
                             //Customer requested Order Bill 
                             //Bill needs to be printed from Kitchen printer
                             logger.info("Message to handle is msgType[PRINT]");
-                            printOrderBill(cMsg.getId());
+                             {
+                                try {
+                                    printOrderBill(cMsg.getId(), printerName, printerWidth);
+                                } catch (PrinterException ex) {
+                                    Logger.getLogger(ClientMessageHandler.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
                             notify.playSound(Constants.PRINT_BILL);
                             break;
                         default:
@@ -221,17 +231,17 @@ public class ClientMessageHandler extends Thread {
      *
      * @param id
      */
-    private void printOrderBill(long id) {
+    private void printOrderBill(long id, String printerName, int paperWidth) throws PrinterException {
         logger.info(String.format("Order bill requested [OrderID: %s]. Start printing bill.", id));
 
-        PrintOrder orderToPrint = new PrintOrder(id, 80);
+        PrintOrder orderToPrint = new PrintOrder(id, paperWidth);
         orderToPrint.getBillDetails();
-
         logger.info(String.format("Print request received for Order:%s", id));
         logger.info(String.format("Printing Order| %s", orderToPrint.toString()));
 
         //TO DO 
         //Print service code here
+        orderToPrint.print(printerName);
     }
 
     /**
@@ -280,9 +290,18 @@ public class ClientMessageHandler extends Thread {
 
     private int deliverOrderDetail(long id) {
         int rows = 0;
-        
+
         //TO DO
-        
         return rows;
+    }
+
+    public void setPrinterName(String name) {
+        this.printerName = name;
+        logger.log(Level.INFO, "Printer name set to --> {0}", this.printerName);
+    }
+
+    public void setPrinterWidth(int width) {
+        this.printerWidth = width;
+        logger.log(Level.INFO, "Printer paper width set to --> {0}", this.printerWidth);
     }
 }
