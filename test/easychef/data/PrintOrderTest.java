@@ -25,7 +25,7 @@ public class PrintOrderTest {
 
     @Before
     public void setUp() {
-        testOrder = new PrintOrder(1234567891, 80);
+        testOrder = new PrintOrder(1234567891, 60);
     }
 
     @After

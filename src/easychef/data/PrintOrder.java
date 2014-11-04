@@ -12,12 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.Executor;
-import java.util.concurrent.FutureTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.print.DocFlavor;
@@ -94,10 +90,10 @@ public class PrintOrder {
             + "WHERE name LIKE 'FOOTER%' ORDER BY name ASC";
 
     //For printing to paper
-    private JTextPane textToPrint;
-    private StyledDocument doc;
-    private SimpleAttributeSet right, left, center, justified;
-    private PrintRequestAttributeSet attr_set;
+    private final JTextPane textToPrint;
+    private final StyledDocument doc;
+    private final SimpleAttributeSet right, left, center, justified;
+    private final PrintRequestAttributeSet attr_set;
 
     public PrintOrder(long id, int width) {
         this.id = id;
@@ -270,8 +266,8 @@ public class PrintOrder {
 
     public void prepareBody() {
         if (fodetails.size() > 0) {
-            for (String[] detail : fodetails) {
-//                sb.append("[").append(detail[0]).append(",").append(detail[1]).append(",").append(detail[2]).append(",").append(detail[3]).append("]");
+            fodetails.stream().forEach((detail) -> {
+                //                sb.append("[").append(detail[0]).append(",").append(detail[1]).append(",").append(detail[2]).append(",").append(detail[3]).append("]");
                 try {
                     String foodline = detail[0];
                     String priceLine = String.format("%s x %s = %s", detail[1],
@@ -281,13 +277,13 @@ public class PrintOrder {
                 } catch (BadLocationException ex) {
                     Logger.getLogger(OrderBill.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+            });
         }
 
         if (dodetails.size() > 0) {
 
-            for (String[] detail : dodetails) {
-//                sb.append("[").append(detail[0]).append(",").append(detail[1]).append(",").append(detail[2]).append(",").append(detail[3]).append("]");
+            dodetails.stream().forEach((detail) -> {
+                //                sb.append("[").append(detail[0]).append(",").append(detail[1]).append(",").append(detail[2]).append(",").append(detail[3]).append("]");
                 try {
                     String foodline = detail[0];
                     String priceLine = String.format("%s x %s = %s", detail[1],
@@ -297,7 +293,7 @@ public class PrintOrder {
                 } catch (BadLocationException ex) {
                     Logger.getLogger(OrderBill.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+            });
         }
     }
 
@@ -344,13 +340,12 @@ public class PrintOrder {
 
     //Suppose printer is found already
     public void print(String printerName) throws PrinterException {
+        logger.info(String.format("Start OrderBill printing for: %s", this.toString()));
         DocFlavor flavor = DocFlavor.SERVICE_FORMATTED.PRINTABLE;
         PrintService[] printServices = PrintServiceLookup.lookupPrintServices(flavor, null);
         for (PrintService printer : printServices) {
             if (printer.getName().equalsIgnoreCase(printerName)) {
-                FutureTask<Boolean> printTask = new FutureTask<>(() -> textToPrint.print(null, null, false, printer, attr_set, true));
-                Executor executor = null;
-                executor.execute(printTask);
+                textToPrint.print(null, null, false, printer, attr_set, true);
                 break;
             }
         }
@@ -503,17 +498,17 @@ public class PrintOrder {
 
         if (fodetails.size() > 0) {
             sb.append("[FODetails:{");
-            for (String[] detail : fodetails) {
+            fodetails.stream().forEach((detail) -> {
                 sb.append("[").append(detail[0]).append(",").append(detail[1]).append(",").append(detail[2]).append(",").append(detail[3]).append("]");
-            }
+            });
             sb.append("}]");
         }
 
         if (dodetails.size() > 0) {
             sb.append("[DODetails:{");
-            for (String[] detail : dodetails) {
+            dodetails.stream().forEach((detail) -> {
                 sb.append("[").append(detail[0]).append(",").append(detail[1]).append(",").append(detail[2]).append(",").append(detail[3]).append("]");
-            }
+            });
             sb.append("}]");
         }
 
@@ -527,8 +522,7 @@ public class PrintOrder {
             super(msg);
         }
     }
-    
-    
+
     public class PaperWidth {
 
         public static final int EIGHTY_MM = 80;
